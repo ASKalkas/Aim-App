@@ -1,4 +1,4 @@
-# text_input
+# Aim-App
 
 A new Flutter project.
 

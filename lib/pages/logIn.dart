@@ -1,4 +1,4 @@
-import "dart:convert";
+//import "dart:convert";
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import '../api/api.dart';
@@ -25,7 +25,7 @@ class LoginState extends State<Login> {
     var res = await CallApi().postData(data, "auth/login");
 
     int code = res.statusCode;
-    var body = json.decode(res.body);
+    //var body = json.decode(res.body); currently Useless
 
     if (code == 200) {
       // ignore: use_build_context_synchronously

@@ -1,6 +1,7 @@
 import "dart:convert";
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
+import "package:text_input/pages/chart_test.dart";
 import '../api/api.dart';
 
 class Login extends StatefulWidget {
@@ -29,13 +30,17 @@ class LoginState extends State<Login> {
 
     if (code == 200) {
       // ignore: use_build_context_synchronously
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            content: Text("Login Successful"),
-          );
-        },
+      // showDialog(
+      //   context: context,
+      //   builder: (context) {
+      //     return const AlertDialog(
+      //       content: Text("Login Successful"),
+      //     );
+      //   },
+      // );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ChartPage()),
       );
     } else {
       // ignore: use_build_context_synchronously

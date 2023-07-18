@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'logIn.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(seconds: 5), () {
+      // Navigate to the next page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Login()),
+      );
+    });
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -41,3 +49,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+// S

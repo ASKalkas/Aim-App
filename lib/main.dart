@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
-import "package:text_input/pages/home_page.dart";
-import 'pages/logIn.dart';
-import "pages/chart_test.dart";
+import "package:text_input/pages/loadingPage.dart";
+// import 'pages/logIn.dart';
+// import "pages/chart_test.dart";
 
 void main() => runApp(const RunMyApp());
 
@@ -13,7 +13,7 @@ class RunMyApp extends StatelessWidget {
     return MaterialApp(
       title: "Retrieve Text Input",
       theme: ThemeData(primarySwatch: Colors.pink),
-      home: HomePage(),
+      home: LoadingPage(),
     );
   }
 }

@@ -112,7 +112,7 @@ class LoginState extends State<Login> {
             ),
             TextField(
               decoration: const InputDecoration(
-                labelText: "E-mail",
+                labelText: "Username",
               ),
               controller: email,
             ),

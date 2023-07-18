@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'logIn.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class LoadingPage extends StatelessWidget {
+  const LoadingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Align(
-                alignment: FractionalOffset(0.5, 0.8),
+                alignment: const FractionalOffset(0.5, 0.8),
                 child: SvgPicture.asset(
                   "assets/images/Logo.svg",
                   fit: BoxFit.contain,
@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Align(
-                  alignment: FractionalOffset(0.5, 0.5),
+                  alignment: const FractionalOffset(0.5, 0.5),
                   child: SvgPicture.asset(
                     'assets/images/Vector.svg',
                     semanticsLabel: 'Loading SVG',

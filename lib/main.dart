@@ -1,7 +1,5 @@
 import "package:flutter/material.dart";
-import "package:text_input/pages/home_page.dart";
 import 'pages/logIn.dart';
-import "pages/chart_test.dart";
 
 void main() => runApp(const RunMyApp());
 

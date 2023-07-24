@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Engagement extends StatefulWidget {
   const Engagement({super.key});
@@ -126,7 +127,10 @@ class _EngagementState extends State<Engagement> {
                   child: Row(
                     children: [
                       Icon(
-                          sentiment_satisfied_alt_outlined), // Replace with the desired icon
+                        FontAwesomeIcons.thumbsUp,
+                        size: 20, //Icon Size
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ), // Replace with the desired icon
                       SizedBox(
                           width:
                               5), // Add some spacing between the icon and the text
@@ -159,7 +163,10 @@ class _EngagementState extends State<Engagement> {
                   child: Row(
                     children: [
                       Icon(
-                          sentiment_neutral_outlined), // Replace with the desired icon
+                        FontAwesomeIcons.commentDots,
+                        size: 20, //Icon Size
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ), // Replace with the desired icon
                       SizedBox(
                           width:
                               5), // Add some spacing between the icon and the text
@@ -192,7 +199,10 @@ class _EngagementState extends State<Engagement> {
                   child: Row(
                     children: [
                       Icon(
-                          sentiment_dissatisfied_outlined), // Replace with the desired icon
+                        FontAwesomeIcons.share,
+                        size: 20, //Icon Size
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ), // Replace with the desired icon
                       SizedBox(
                           width:
                               5), // Add some spacing between the icon and the text
@@ -225,7 +235,10 @@ class _EngagementState extends State<Engagement> {
                   child: Row(
                     children: [
                       Icon(
-                          sentiment_dissatisfied_outlined), // Replace with the desired icon
+                        FontAwesomeIcons.eye,
+                        size: 20, //Icon Size
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ), // Replace with the desired icon
                       SizedBox(
                           width:
                               5), // Add some spacing between the icon and the text

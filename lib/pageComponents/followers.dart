@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Followers extends StatefulWidget {
   const Followers({super.key});
@@ -39,6 +40,8 @@ class _FollowersState extends State<Followers> {
       IconData(0xe67f, fontFamily: 'MaterialIcons', matchTextDirection: true);
   static const IconData trending_down =
       IconData(0xe67d, fontFamily: 'MaterialIcons', matchTextDirection: true);
+  static const IconData facebook =
+      IconData(0xe255, fontFamily: 'MaterialIcons');
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -126,8 +129,7 @@ class _FollowersState extends State<Followers> {
                 const Expanded(
                   child: Row(
                     children: [
-                      Icon(
-                          sentiment_satisfied_alt_outlined), // Replace with the desired icon
+                      Icon(facebook), // Replace with the desired icon
                       SizedBox(
                           width:
                               5), // Add some spacing between the icon and the text
@@ -160,7 +162,10 @@ class _FollowersState extends State<Followers> {
                   child: Row(
                     children: [
                       Icon(
-                          sentiment_neutral_outlined), // Replace with the desired icon
+                        FontAwesomeIcons.instagram,
+                        size: 20, //Icon Size
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ), // Replace with the desired icon
                       SizedBox(
                           width:
                               5), // Add some spacing between the icon and the text
@@ -192,8 +197,10 @@ class _FollowersState extends State<Followers> {
                 const Expanded(
                   child: Row(
                     children: [
-                      Icon(
-                          sentiment_dissatisfied_outlined), // Replace with the desired icon
+                      Icon(FontAwesomeIcons.twitter,
+                          size: 20, //Icon Size
+                          color: Color.fromARGB(
+                              255, 0, 0, 0)), // Replace with the desired icon
                       SizedBox(
                           width:
                               5), // Add some spacing between the icon and the text
@@ -225,8 +232,10 @@ class _FollowersState extends State<Followers> {
                 const Expanded(
                   child: Row(
                     children: [
-                      Icon(
-                          sentiment_dissatisfied_outlined), // Replace with the desired icon
+                      Icon(FontAwesomeIcons.youtube,
+                          size: 20, //Icon Size
+                          color: Color.fromARGB(
+                              255, 0, 0, 0)), // Replace with the desired icon
                       SizedBox(
                           width:
                               5), // Add some spacing between the icon and the text

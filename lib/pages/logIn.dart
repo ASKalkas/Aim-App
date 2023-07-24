@@ -3,6 +3,7 @@ import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import "package:text_input/pages/chart_test.dart";
 import '../api/api.dart';
+import "../pages/generalStats.dart";
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -32,7 +33,7 @@ class LoginState extends State<Login> {
       // ignore: use_build_context_synchronously
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ChartPage()),
+        MaterialPageRoute(builder: (context) => GeneralStats()),
       );
     } else {
       // ignore: use_build_context_synchronously

@@ -2,19 +2,20 @@ import "package:flutter/material.dart";
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
-class Sentiment extends StatefulWidget {
-  const Sentiment({super.key});
+class Followers extends StatefulWidget {
+  const Followers({super.key});
 
   @override
-  _SentimentState createState() => _SentimentState();
+  _FollowersState createState() => _FollowersState();
 }
 
-class _SentimentState extends State<Sentiment> {
+class _FollowersState extends State<Followers> {
   static var data = {
-    "sentiment": 54,
-    "positive": 1900,
-    "neutral": 2600,
-    "negative": 1700,
+    "followers": 22100000,
+    "facebook": 16500000,
+    "instagram": 1600000,
+    "twitter": 1900000,
+    "youtube": 2100000,
     "dataset": "placeholder",
   };
 
@@ -44,7 +45,7 @@ class _SentimentState extends State<Sentiment> {
       body: Center(
         child: Container(
           width: 350,
-          height: 250,
+          height: 300,
           decoration: BoxDecoration(
             color: Colors.white,
             shape: BoxShape.rectangle,
@@ -68,9 +69,9 @@ class _SentimentState extends State<Sentiment> {
                       children: [
                         RichText(
                           text: const TextSpan(
-                            text: "Sentiment",
+                            text: "Followers",
                             style: TextStyle(
-                                color: Colors.lightBlue, fontSize: 16),
+                                color: Colors.purpleAccent, fontSize: 16),
                           ),
                         ),
                         const SizedBox(
@@ -79,7 +80,7 @@ class _SentimentState extends State<Sentiment> {
                         RichText(
                           textAlign: TextAlign.left,
                           text: TextSpan(
-                            text: "${convertNumber(data["sentiment"])}%",
+                            text: convertNumber(data["followers"]),
                             style: const TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
@@ -96,15 +97,15 @@ class _SentimentState extends State<Sentiment> {
                       height: 60, // Adjust the height of the chart to your desired size
                       child: SfSparkAreaChart(
                         data: [
-                          (data['sentiment'] as num).toDouble(),
-                          (data['neutral'] as num).toDouble(),
-                          (data['negative'] as num).toDouble(),
-                          (data['positive'] as num).toDouble(),
+                          (data['facebook'] as num).toDouble(),
+                          (data['twitter'] as num).toDouble(),
+                          (data['followers'] as num).toDouble(),
+                          (data['youtube'] as num).toDouble(),
                         ],
                         axisLineColor: Colors.black, // Optional: This line hides the axis lines
-                        color: const Color.fromARGB(190, 170, 225, 251),
+                        color: const Color.fromARGB(255, 226, 155, 239),
                         borderWidth: 2,
-                        borderColor:Colors.blue, // Optional: Change the sparkline color
+                        borderColor:Colors.purpleAccent, // Optional: Change the sparkline color
                         // gradient: LinearGradient(
                         //   colors: [
                         //     Colors.blue.withOpacity(0.2),
@@ -128,7 +129,7 @@ class _SentimentState extends State<Sentiment> {
                           SizedBox(
                               width:
                                   5), // Add some spacing between the icon and the text
-                          Text("Positive"),
+                          Text("Facebook"),
                         ],
                       ),
                     ),
@@ -138,7 +139,7 @@ class _SentimentState extends State<Sentiment> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(convertNumber(data["positive"])),
+                              Text(convertNumber(data["facebook"])),
                               const SizedBox(
                                   width:
                                       5), // Add some spacing between the icon and the text
@@ -161,7 +162,7 @@ class _SentimentState extends State<Sentiment> {
                           SizedBox(
                               width:
                                   5), // Add some spacing between the icon and the text
-                          Text("Neutral"),
+                          Text("Instagram"),
                         ],
                       ),
                     ),
@@ -171,7 +172,7 @@ class _SentimentState extends State<Sentiment> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(convertNumber(data["neutral"])),
+                              Text(convertNumber(data["instagram"])),
                               const SizedBox(
                                   width:
                                       5), // Add some spacing between the icon and the text
@@ -194,7 +195,7 @@ class _SentimentState extends State<Sentiment> {
                           SizedBox(
                               width:
                                   5), // Add some spacing between the icon and the text
-                          Text("Negative"),
+                          Text("Twitter"),
                         ],
                       ),
                     ),
@@ -204,7 +205,40 @@ class _SentimentState extends State<Sentiment> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(convertNumber(data["negative"])),
+                              Text(convertNumber(data["twitter"])),
+                              const SizedBox(
+                                  width:
+                                      5), // Add some spacing between the icon and the text
+                              const Icon(trending_down,
+                                  color: Colors
+                                      .red), // Replace with the desired icon
+                            ],
+                          )),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    const Expanded(
+                      child: Row(
+                        children: [
+                          Icon(
+                              sentiment_dissatisfied_outlined), // Replace with the desired icon
+                          SizedBox(
+                              width:
+                                  5), // Add some spacing between the icon and the text
+                          Text("Youtube"),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                          alignment: Alignment.centerRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(convertNumber(data["youtube"])),
                               const SizedBox(
                                   width:
                                       5), // Add some spacing between the icon and the text

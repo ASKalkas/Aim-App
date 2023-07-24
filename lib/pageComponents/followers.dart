@@ -41,218 +41,218 @@ class _FollowersState extends State<Followers> {
       IconData(0xe67d, fontFamily: 'MaterialIcons', matchTextDirection: true);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-          width: 350,
-          height: 300,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0xffdddddd),
-                blurRadius: 5,
-                spreadRadius: 2,
-              ),
-            ],
+    return Container(
+      width: 330,
+      height: 300,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0xffdddddd),
+            blurRadius: 5,
+            spreadRadius: 2,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        RichText(
-                          text: const TextSpan(
-                            text: "Followers",
-                            style: TextStyle(
-                                color: Colors.purpleAccent, fontSize: 16),
-                          ),
+                    RichText(
+                      text: const TextSpan(
+                        text: "Followers",
+                        style:
+                            TextStyle(color: Colors.purpleAccent, fontSize: 16),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    RichText(
+                      textAlign: TextAlign.left,
+                      text: TextSpan(
+                        text: convertNumber(data["followers"]),
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.left,
-                          text: TextSpan(
-                            text: convertNumber(data["followers"]),
-                            style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 30),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    height:
+                        60, // Adjust the height of the chart to your desired size
+                    child: SfSparkAreaChart(
+                      data: [
+                        (data['facebook'] as num).toDouble(),
+                        (data['twitter'] as num).toDouble(),
+                        (data['followers'] as num).toDouble(),
+                        (data['youtube'] as num).toDouble(),
                       ],
+                      axisLineColor: Colors
+                          .black, // Optional: This line hides the axis lines
+                      color: const Color.fromARGB(255, 226, 155, 239),
+                      borderWidth: 2,
+                      borderColor: Colors
+                          .purpleAccent, // Optional: Change the sparkline color
+                      // gradient: LinearGradient(
+                      //   colors: [
+                      //     Colors.blue.withOpacity(0.2),
+                      //     Colors.blue.withOpacity(0.8),
+                      //   ],
+                      //   begin: Alignment.bottomCenter,
+                      //   end: Alignment.topCenter,
+                      // ),
                     ),
-                    const SizedBox(width: 50),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: 180, // Full width of the chart
-                      height: 60, // Adjust the height of the chart to your desired size
-                      child: SfSparkAreaChart(
-                        data: [
-                          (data['facebook'] as num).toDouble(),
-                          (data['twitter'] as num).toDouble(),
-                          (data['followers'] as num).toDouble(),
-                          (data['youtube'] as num).toDouble(),
-                        ],
-                        axisLineColor: Colors.black, // Optional: This line hides the axis lines
-                        color: const Color.fromARGB(255, 226, 155, 239),
-                        borderWidth: 2,
-                        borderColor:Colors.purpleAccent, // Optional: Change the sparkline color
-                        // gradient: LinearGradient(
-                        //   colors: [
-                        //     Colors.blue.withOpacity(0.2),
-                        //     Colors.blue.withOpacity(0.8),
-                        //   ],
-                        //   begin: Alignment.bottomCenter,
-                        //   end: Alignment.topCenter,
-                        // ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Row(
-                        children: [
-                          Icon(
-                              sentiment_satisfied_alt_outlined), // Replace with the desired icon
-                          SizedBox(
-                              width:
-                                  5), // Add some spacing between the icon and the text
-                          Text("Facebook"),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                          alignment: Alignment.centerRight,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(convertNumber(data["facebook"])),
-                              const SizedBox(
-                                  width:
-                                      5), // Add some spacing between the icon and the text
-                              const Icon(trending_up,
-                                  color: Colors
-                                      .green), // Replace with the desired icon
-                            ],
-                          )),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Row(
-                        children: [
-                          Icon(
-                              sentiment_neutral_outlined), // Replace with the desired icon
-                          SizedBox(
-                              width:
-                                  5), // Add some spacing between the icon and the text
-                          Text("Instagram"),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                          alignment: Alignment.centerRight,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(convertNumber(data["instagram"])),
-                              const SizedBox(
-                                  width:
-                                      5), // Add some spacing between the icon and the text
-                              const Icon(trending_down,
-                                  color: Colors
-                                      .red), // Replace with the desired icon
-                            ],
-                          )),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Row(
-                        children: [
-                          Icon(
-                              sentiment_dissatisfied_outlined), // Replace with the desired icon
-                          SizedBox(
-                              width:
-                                  5), // Add some spacing between the icon and the text
-                          Text("Twitter"),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                          alignment: Alignment.centerRight,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(convertNumber(data["twitter"])),
-                              const SizedBox(
-                                  width:
-                                      5), // Add some spacing between the icon and the text
-                              const Icon(trending_down,
-                                  color: Colors
-                                      .red), // Replace with the desired icon
-                            ],
-                          )),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Row(
-                        children: [
-                          Icon(
-                              sentiment_dissatisfied_outlined), // Replace with the desired icon
-                          SizedBox(
-                              width:
-                                  5), // Add some spacing between the icon and the text
-                          Text("Youtube"),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                          alignment: Alignment.centerRight,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(convertNumber(data["youtube"])),
-                              const SizedBox(
-                                  width:
-                                      5), // Add some spacing between the icon and the text
-                              const Icon(trending_down,
-                                  color: Colors
-                                      .red), // Replace with the desired icon
-                            ],
-                          )),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
+            const SizedBox(height: 30),
+            Row(
+              children: [
+                const Expanded(
+                  child: Row(
+                    children: [
+                      Icon(
+                          sentiment_satisfied_alt_outlined), // Replace with the desired icon
+                      SizedBox(
+                          width:
+                              5), // Add some spacing between the icon and the text
+                      Text("Facebook"),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(convertNumber(data["facebook"])),
+                          const SizedBox(
+                              width:
+                                  5), // Add some spacing between the icon and the text
+                          const Icon(trending_up,
+                              color: Colors
+                                  .green), // Replace with the desired icon
+                        ],
+                      )),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                const Expanded(
+                  child: Row(
+                    children: [
+                      Icon(
+                          sentiment_neutral_outlined), // Replace with the desired icon
+                      SizedBox(
+                          width:
+                              5), // Add some spacing between the icon and the text
+                      Text("Instagram"),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(convertNumber(data["instagram"])),
+                          const SizedBox(
+                              width:
+                                  5), // Add some spacing between the icon and the text
+                          const Icon(trending_down,
+                              color:
+                                  Colors.red), // Replace with the desired icon
+                        ],
+                      )),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                const Expanded(
+                  child: Row(
+                    children: [
+                      Icon(
+                          sentiment_dissatisfied_outlined), // Replace with the desired icon
+                      SizedBox(
+                          width:
+                              5), // Add some spacing between the icon and the text
+                      Text("Twitter"),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(convertNumber(data["twitter"])),
+                          const SizedBox(
+                              width:
+                                  5), // Add some spacing between the icon and the text
+                          const Icon(trending_down,
+                              color:
+                                  Colors.red), // Replace with the desired icon
+                        ],
+                      )),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                const Expanded(
+                  child: Row(
+                    children: [
+                      Icon(
+                          sentiment_dissatisfied_outlined), // Replace with the desired icon
+                      SizedBox(
+                          width:
+                              5), // Add some spacing between the icon and the text
+                      Text("Youtube"),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(convertNumber(data["youtube"])),
+                          const SizedBox(
+                              width:
+                                  5), // Add some spacing between the icon and the text
+                          const Icon(trending_down,
+                              color:
+                                  Colors.red), // Replace with the desired icon
+                        ],
+                      )),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

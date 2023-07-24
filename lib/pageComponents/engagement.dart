@@ -2,19 +2,20 @@ import "package:flutter/material.dart";
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
-class Sentiment extends StatefulWidget {
-  const Sentiment({super.key});
+class Engagement extends StatefulWidget {
+  const Engagement({super.key});
 
   @override
-  _SentimentState createState() => _SentimentState();
+  _EngagementState createState() => _EngagementState();
 }
 
-class _SentimentState extends State<Sentiment> {
+class _EngagementState extends State<Engagement> {
   static var data = {
-    "sentiment": 54,
-    "positive": 1900,
-    "neutral": 2600,
-    "negative": 1700,
+    "engagement": 712900,
+    "reactions": 220000,
+    "comments": 7200,
+    "shares": 1100,
+    "views": 484500,
     "dataset": "placeholder",
   };
 
@@ -42,7 +43,7 @@ class _SentimentState extends State<Sentiment> {
   Widget build(BuildContext context) {
     return Container(
       width: 330,
-      height: 250,
+      height: 300,
       decoration: BoxDecoration(
         color: Colors.white,
         shape: BoxShape.rectangle,
@@ -66,8 +67,8 @@ class _SentimentState extends State<Sentiment> {
                   children: [
                     RichText(
                       text: const TextSpan(
-                        text: "Sentiment",
-                        style: TextStyle(color: Colors.lightBlue, fontSize: 16),
+                        text: "Engagement",
+                        style: TextStyle(color: Colors.orange, fontSize: 16),
                       ),
                     ),
                     const SizedBox(
@@ -76,7 +77,7 @@ class _SentimentState extends State<Sentiment> {
                     RichText(
                       textAlign: TextAlign.left,
                       text: TextSpan(
-                        text: "${convertNumber(data["sentiment"])}%",
+                        text: convertNumber(data["engagement"]),
                         style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
@@ -94,17 +95,17 @@ class _SentimentState extends State<Sentiment> {
                         60, // Adjust the height of the chart to your desired size
                     child: SfSparkAreaChart(
                       data: [
-                        (data['sentiment'] as num).toDouble(),
-                        (data['neutral'] as num).toDouble(),
-                        (data['negative'] as num).toDouble(),
-                        (data['positive'] as num).toDouble(),
+                        (data['reactions'] as num).toDouble(),
+                        (data['engagement'] as num).toDouble(),
+                        (data['comments'] as num).toDouble(),
+                        (data['views'] as num).toDouble(),
                       ],
                       axisLineColor: Colors
                           .black, // Optional: This line hides the axis lines
-                      color: const Color.fromARGB(190, 170, 225, 251),
+                      color: Color.fromARGB(255, 249, 223, 185),
                       borderWidth: 2,
                       borderColor:
-                          Colors.blue, // Optional: Change the sparkline color
+                          Colors.orange, // Optional: Change the sparkline color
                       // gradient: LinearGradient(
                       //   colors: [
                       //     Colors.blue.withOpacity(0.2),
@@ -129,7 +130,7 @@ class _SentimentState extends State<Sentiment> {
                       SizedBox(
                           width:
                               5), // Add some spacing between the icon and the text
-                      Text("Positive"),
+                      Text("Reactions"),
                     ],
                   ),
                 ),
@@ -139,7 +140,7 @@ class _SentimentState extends State<Sentiment> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(convertNumber(data["positive"])),
+                          Text(convertNumber(data["reactions"])),
                           const SizedBox(
                               width:
                                   5), // Add some spacing between the icon and the text
@@ -162,7 +163,7 @@ class _SentimentState extends State<Sentiment> {
                       SizedBox(
                           width:
                               5), // Add some spacing between the icon and the text
-                      Text("Neutral"),
+                      Text("comments"),
                     ],
                   ),
                 ),
@@ -172,7 +173,7 @@ class _SentimentState extends State<Sentiment> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(convertNumber(data["neutral"])),
+                          Text(convertNumber(data["comments"])),
                           const SizedBox(
                               width:
                                   5), // Add some spacing between the icon and the text
@@ -195,7 +196,7 @@ class _SentimentState extends State<Sentiment> {
                       SizedBox(
                           width:
                               5), // Add some spacing between the icon and the text
-                      Text("Negative"),
+                      Text("shares"),
                     ],
                   ),
                 ),
@@ -205,7 +206,40 @@ class _SentimentState extends State<Sentiment> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(convertNumber(data["negative"])),
+                          Text(convertNumber(data["shares"])),
+                          const SizedBox(
+                              width:
+                                  5), // Add some spacing between the icon and the text
+                          const Icon(trending_down,
+                              color:
+                                  Colors.red), // Replace with the desired icon
+                        ],
+                      )),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                const Expanded(
+                  child: Row(
+                    children: [
+                      Icon(
+                          sentiment_dissatisfied_outlined), // Replace with the desired icon
+                      SizedBox(
+                          width:
+                              5), // Add some spacing between the icon and the text
+                      Text("views"),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(convertNumber(data["views"])),
                           const SizedBox(
                               width:
                                   5), // Add some spacing between the icon and the text

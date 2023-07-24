@@ -28,6 +28,16 @@ class _SentimentState extends State<Sentiment> {
     }
   }
 
+  static const IconData sentiment_satisfied_alt_outlined =
+      IconData(0xf35d, fontFamily: 'MaterialIcons');
+  static const IconData sentiment_dissatisfied_outlined =
+      IconData(0xf35b, fontFamily: 'MaterialIcons');
+  static const IconData sentiment_neutral_outlined =
+      IconData(0xf35c, fontFamily: 'MaterialIcons');
+  static const IconData trending_up =
+      IconData(0xe67f, fontFamily: 'MaterialIcons', matchTextDirection: true);
+  static const IconData trending_down =
+      IconData(0xe67d, fontFamily: 'MaterialIcons', matchTextDirection: true);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,12 +46,16 @@ class _SentimentState extends State<Sentiment> {
           width: 250,
           height: 250,
           decoration: BoxDecoration(
+            color: Colors.white,
             shape: BoxShape.rectangle,
-            border: Border.all(
-              color: Colors.grey,
-              width: 2,
-            ),
             borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0xffdddddd),
+                blurRadius: 5,
+                spreadRadius: 2,
+              ),
+            ],
           ),
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -50,20 +64,27 @@ class _SentimentState extends State<Sentiment> {
                 Row(
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         RichText(
                           text: const TextSpan(
                             text: "Sentiment",
-                            style: TextStyle(color: Colors.lightBlue),
+                            style: TextStyle(
+                                color: Colors.lightBlue, fontSize: 16),
                           ),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 4,
                         ),
                         RichText(
+                          textAlign: TextAlign.left,
                           text: TextSpan(
                             text: "${convertNumber(data["sentiment"])}%",
-                            style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                            style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ],
@@ -73,17 +94,36 @@ class _SentimentState extends State<Sentiment> {
                     // ),
                   ],
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 30),
                 Row(
                   children: [
                     const Expanded(
-                      child: Text("🙂 positive"),
+                      child: Row(
+                        children: [
+                          Icon(
+                              sentiment_satisfied_alt_outlined), // Replace with the desired icon
+                          SizedBox(
+                              width:
+                                  5), // Add some spacing between the icon and the text
+                          Text("Positive"),
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: Container(
-                        alignment: Alignment.centerRight,
-                        child: Text("${convertNumber(data["positive"])}📈")
-                      ),
+                          alignment: Alignment.centerRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text("${convertNumber(data["positive"])}"),
+                              Icon(trending_up,
+                                  color: Colors
+                                      .green), // Replace with the desired icon
+                              SizedBox(
+                                  width:
+                                      5), // Add some spacing between the icon and the text
+                            ],
+                          )),
                     ),
                   ],
                 ),
@@ -91,13 +131,32 @@ class _SentimentState extends State<Sentiment> {
                 Row(
                   children: [
                     const Expanded(
-                      child: Text("😐 neutral"),
+                      child: Row(
+                        children: [
+                          Icon(
+                              sentiment_neutral_outlined), // Replace with the desired icon
+                          SizedBox(
+                              width:
+                                  5), // Add some spacing between the icon and the text
+                          Text("Neutral"),
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: Container(
-                        alignment: Alignment.centerRight,
-                        child: Text("${convertNumber(data["neutral"])}📈")
-                      ),
+                          alignment: Alignment.centerRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text("${convertNumber(data["neutral"])}"),
+                              Icon(trending_down,
+                                  color: Colors
+                                      .red), // Replace with the desired icon
+                              SizedBox(
+                                  width:
+                                      5), // Add some spacing between the icon and the text
+                            ],
+                          )),
                     ),
                   ],
                 ),
@@ -105,13 +164,32 @@ class _SentimentState extends State<Sentiment> {
                 Row(
                   children: [
                     const Expanded(
-                      child: Text("🙁 negative"),
+                      child: Row(
+                        children: [
+                          Icon(
+                              sentiment_dissatisfied_outlined), // Replace with the desired icon
+                          SizedBox(
+                              width:
+                                  5), // Add some spacing between the icon and the text
+                          Text("Negative"),
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: Container(
-                        alignment: Alignment.centerRight,
-                        child: Text("${convertNumber(data["negative"])}📈")
-                      ),
+                          alignment: Alignment.centerRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text("${convertNumber(data["negative"])}"),
+                              Icon(trending_down,
+                                  color: Colors
+                                      .red), // Replace with the desired icon
+                              SizedBox(
+                                  width:
+                                      5), // Add some spacing between the icon and the text
+                            ],
+                          )),
                     ),
                   ],
                 ),

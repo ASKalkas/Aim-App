@@ -89,44 +89,32 @@ class _SentimentState extends State<Sentiment> {
                         ),
                       ],
                     ),
-                      const SizedBox(width: 50),
-                   Container(
-                    alignment: Alignment.centerLeft,
-                  width: 180, // Full width of the chart
-                  height: 60, // Adjust the height of the chart to your desired size
-                  child: SfSparkAreaChart(
-                         data: [
-                           (data['sentiment'] as num).toDouble(),
-                           (data['neutral']as num).toDouble(),
-                           (data['negative']as num).toDouble(),
-                           (data['positive']as num).toDouble(),
-                              ],
-                       axisLineColor: Colors.black, // Optional: This line hides the axis lines
-                      color: Color.fromARGB(190, 170, 225, 251),
-                    
-                      // gradient: 
-                    //   LinearGradient(
-                    //   colors: [
-                    //     Colors.blue.withOpacity(0.2),
-                    //     Colors.blue.withOpacity(0.8),
-                    //   ],
-                    //   begin: Alignment.bottomCenter,
-                    //   end: Alignment.topCenter,
-                    // ),
-                    marker: SparkChartMarker(
-                      displayMode: SparkChartMarkerDisplayMode.all,
-                      size: 5,
-                      borderWidth: 2,
-                    
+                    const SizedBox(width: 50),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: 180, // Full width of the chart
+                      height: 60, // Adjust the height of the chart to your desired size
+                      child: SfSparkAreaChart(
+                        data: [
+                          (data['sentiment'] as num).toDouble(),
+                          (data['neutral'] as num).toDouble(),
+                          (data['negative'] as num).toDouble(),
+                          (data['positive'] as num).toDouble(),
+                        ],
+                        axisLineColor: Colors.black, // Optional: This line hides the axis lines
+                        color: Color.fromARGB(190, 170, 225, 251),
+                        borderWidth: 2,
+                        borderColor:Colors.blue, // Optional: Change the sparkline color
+                        // gradient: LinearGradient(
+                        //   colors: [
+                        //     Colors.blue.withOpacity(0.2),
+                        //     Colors.blue.withOpacity(0.8),
+                        //   ],
+                        //   begin: Alignment.bottomCenter,
+                        //   end: Alignment.topCenter,
+                        // ),
+                      ),
                     ),
-                    
-                       
-                       borderWidth: 2,
-                       
-                       borderColor: Colors.blue, // Optional: Change the sparkline color
-                        ),
-                    ),
-                    
                   ],
                 ),
                 const SizedBox(height: 30),

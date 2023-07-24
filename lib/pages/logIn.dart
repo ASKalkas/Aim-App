@@ -30,14 +30,6 @@ class LoginState extends State<Login> {
 
     if (code == 200) {
       // ignore: use_build_context_synchronously
-      // showDialog(
-      //   context: context,
-      //   builder: (context) {
-      //     return const AlertDialog(
-      //       content: Text("Login Successful"),
-      //     );
-      //   },
-      // );
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ChartPage()),

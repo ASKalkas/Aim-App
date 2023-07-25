@@ -1,6 +1,10 @@
+import "dart:convert";
 import "package:flutter/material.dart";
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import "../main.dart";
+import "../api/api.dart";
 
 class Engagement extends StatefulWidget {
   const Engagement({super.key});
@@ -19,6 +23,8 @@ class _EngagementState extends State<Engagement> {
     "dataset": "placeholder",
   };
 
+  static var response = {};
+
   String convertNumber(var value) {
     if (value < 1000) {
       return value.toString();
@@ -29,12 +35,50 @@ class _EngagementState extends State<Engagement> {
     }
   }
 
+  List<num> convertList(List list){
+    List<num> result = [];
+    
+    for(var x in list){
+      result.add(x as num);
+    }
+
+    return result;
+  }
+
+  void getData(var appState) async {
+    var data = {
+      "dashboardId": "12001",
+      "visualizationId": 92003,
+      "time_from": "2023-07-17T00:00:00.000Z",
+      "time_to": "2023-07-24T23:59:59.999Z",
+      "interval": "12h",
+      "filters": {
+        "entities": [
+          {
+            "key": "Dreem Egypt",
+            "id": "694b35b8-d988-4635-8d81-a614491d1444",
+            "value": true
+          }
+        ]
+      },
+      "second_from_date": "2023-07-10T00:00:00.000Z",
+      "second_to_date": "2023-07-17T23:59:59.999Z"
+    };
+    Map<String, String> headers = {"x-access-token":appState.token, "Cookie": "is_migrated=true", "Content-type":"Application/json"};
+    var res = await CallApi().postData(data, "load", headers);
+    response = json.decode(res.body);
+    // debugPrint(res.statusCode.toString());
+    //debugPrint(response["data"]["elasticResponse"]["response"]["data"]["line"]["datasets"][0]["data"][0].toString());
+  }
+
   static const IconData trending_up =
       IconData(0xe67f, fontFamily: 'MaterialIcons', matchTextDirection: true);
   static const IconData trending_down =
       IconData(0xe67d, fontFamily: 'MaterialIcons', matchTextDirection: true);
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<AppState>();
+    getData(appState);
     return Container(
       width: 330,
       height: 300,
@@ -71,7 +115,7 @@ class _EngagementState extends State<Engagement> {
                     RichText(
                       textAlign: TextAlign.left,
                       text: TextSpan(
-                        text: convertNumber(data["engagement"]),
+                        text: convertNumber(response["data"]["elasticResponse"]["response"]["data"]["card"][0]["value"]),
                         style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
@@ -88,12 +132,7 @@ class _EngagementState extends State<Engagement> {
                     height:
                         60, // Adjust the height of the chart to your desired size
                     child: SfSparkAreaChart(
-                      data: [
-                        (data['reactions'] as num).toDouble(),
-                        (data['engagement'] as num).toDouble(),
-                        (data['comments'] as num).toDouble(),
-                        (data['views'] as num).toDouble(),
-                      ],
+                      data: convertList(response["data"]["elasticResponse"]["response"]["data"]["line"]["datasets"][0]["data"]),
                       axisLineColor: Colors
                           .black, // Optional: This line hides the axis lines
                       color: Color.fromARGB(255, 249, 223, 185),

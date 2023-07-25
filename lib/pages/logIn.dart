@@ -1,7 +1,7 @@
-import "dart:convert";
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
+import "dart:convert";
 import '../api/api.dart';
 import "../pages/generalStats.dart";
 import "../main.dart";
@@ -25,7 +25,9 @@ class LoginState extends State<Login> {
       "user": {"username": email.text, "password": pass.text}
     };
 
-    var res = await CallApi().postData(data, "auth/login");
+    var header = {"content-Type": "Application/json"};
+
+    var res = await CallApi().postData(data, "auth/login", header);
 
     int code = res.statusCode;
     var body = json.decode(res.body);

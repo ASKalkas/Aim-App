@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -30,12 +29,6 @@ class _EngagementState extends State<Engagement> {
     }
   }
 
-  static const IconData sentiment_satisfied_alt_outlined =
-      IconData(0xf35d, fontFamily: 'MaterialIcons');
-  static const IconData sentiment_dissatisfied_outlined =
-      IconData(0xf35b, fontFamily: 'MaterialIcons');
-  static const IconData sentiment_neutral_outlined =
-      IconData(0xf35c, fontFamily: 'MaterialIcons');
   static const IconData trending_up =
       IconData(0xe67f, fontFamily: 'MaterialIcons', matchTextDirection: true);
   static const IconData trending_down =

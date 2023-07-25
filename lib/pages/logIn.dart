@@ -1,9 +1,10 @@
-//import "dart:convert";
+import "dart:convert";
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
-import "package:text_input/pages/chart_test.dart";
+import 'package:provider/provider.dart';
 import '../api/api.dart';
 import "../pages/generalStats.dart";
+import "../main.dart";
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,7 +20,7 @@ class LoginState extends State<Login> {
   bool _isObscured = true;
   bool remeberMe = false;
 
-  _logIn() async {
+  _logIn(var appState) async {
     var data = {
       "user": {"username": email.text, "password": pass.text}
     };
@@ -27,13 +28,17 @@ class LoginState extends State<Login> {
     var res = await CallApi().postData(data, "auth/login");
 
     int code = res.statusCode;
-    //var body = json.decode(res.body); currently Useless
+    var body = json.decode(res.body);
+
+    appState.token = body["token"];
+    appState.username = body["data"]["user"]["username"];
+    //appState.printTest();
 
     if (code == 200) {
       // ignore: use_build_context_synchronously
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => GeneralStats()),
+        MaterialPageRoute(builder: (context) => const GeneralStats()),
       );
     } else {
       // ignore: use_build_context_synchronously
@@ -60,6 +65,8 @@ class LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<AppState>();
+
     return Scaffold(
       floatingActionButton: SizedBox(
         height: 56,
@@ -69,7 +76,7 @@ class LoginState extends State<Login> {
             borderRadius: BorderRadius.circular(100.0),
           ),
           onPressed: () {
-            _logIn();
+            _logIn(appState);
           },
           child: const Text("SIGN IN"),
         ),

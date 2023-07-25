@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:text_input/pages/loadingPage.dart";
+import 'package:provider/provider.dart';
 // import "pages/generalStats.dart";
 // import 'pages/logIn.dart';
 // import "pages/chart_test.dart";
@@ -11,10 +12,23 @@ class RunMyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Retrieve Text Input",
-      theme: ThemeData(primarySwatch: Colors.pink),
-      home: LoadingPage(),
+    return ChangeNotifierProvider(
+        create: (context) => AppState(),
+        child: MaterialApp(
+          title: "Aim-App",
+          theme: ThemeData(primarySwatch: Colors.pink),
+          home: LoadingPage(),
+        )
     );
+  }
+}
+
+class AppState extends ChangeNotifier {
+  var token = "token";
+  var username = "username";
+
+  void printTest() {
+    debugPrint("Token: ${token}");
+    debugPrint("username: ${username}");
   }
 }

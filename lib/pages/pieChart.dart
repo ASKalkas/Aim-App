@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class ChartPage extends StatefulWidget {
+class PieChart extends StatefulWidget {
   @override
-  _ChartPageState createState() => _ChartPageState();
+  _PieChartState createState() => _PieChartState();
 }
 
-class _ChartPageState extends State<ChartPage> {
+class _PieChartState extends State<PieChart> {
   var data = {
     "data": {
       "labels": [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../pages/chart_test.dart';
+import '../pages/pieChart.dart';
 import '../pages/generalStats.dart';
 import '../main.dart';
 
@@ -41,7 +41,7 @@ class _BottomNavigationBarExampleState
         appState.setPage(const GeneralStats());
         break;
       case 1:
-        appState.setPage(ChartPage());
+        appState.setPage(PieChart());
         break;
       case 2:
         appState.setPage(Placeholder());

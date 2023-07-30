@@ -19,7 +19,7 @@ class GeneralStatsState extends State<GeneralStats> {
       body: Column(
         children: [
           Expanded(
-              child: Column(children: [
+              child: ListView(children: [
             Center(child: Followers()),
             SizedBox(height: 30),
             Center(child: Sentiment()),

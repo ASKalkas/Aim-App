@@ -32,11 +32,11 @@ class LoginState extends State<Login> {
     int code = res.statusCode;
     var body = json.decode(res.body);
 
-    appState.token = body["token"];
-    appState.username = body["data"]["user"]["username"];
     //appState.printTest();
 
     if (code == 200) {
+    appState.token = body["token"];
+    appState.username = body["data"]["user"]["username"];
       // ignore: use_build_context_synchronously
       Navigator.push(
         context,

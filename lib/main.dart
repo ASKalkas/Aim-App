@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:text_input/pages/generalStats.dart";
 import "package:text_input/pages/loadingPage.dart";
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
@@ -31,9 +32,15 @@ class RunMyApp extends StatelessWidget {
 class AppState extends ChangeNotifier {
   var token = "token";
   var username = "username";
+  Widget page = const GeneralStats();
 
   void printTest() {
-    debugPrint("Token: ${token}");
-    debugPrint("username: ${username}");
+    debugPrint("Token: $token");
+    debugPrint("username: $username");
+  }
+
+  void setPage(Widget page){
+    page = page;
+    notifyListeners();
   }
 }

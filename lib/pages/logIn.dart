@@ -1,6 +1,7 @@
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
+import "package:text_input/pages/homePage.dart";
 import "dart:convert";
 import '../api/api.dart';
 import "../pages/generalStats.dart";
@@ -40,7 +41,7 @@ class LoginState extends State<Login> {
       // ignore: use_build_context_synchronously
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const GeneralStats()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } else {
       // ignore: use_build_context_synchronously

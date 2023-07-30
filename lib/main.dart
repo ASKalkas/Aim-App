@@ -1,11 +1,17 @@
 import "package:flutter/material.dart";
 import "package:text_input/pages/loadingPage.dart";
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 // import "pages/generalStats.dart";
 // import 'pages/logIn.dart';
 // import "pages/chart_test.dart";
 
-void main() => runApp(const RunMyApp());
+void main() {
+  runApp(RunMyApp());
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
+}
 
 class RunMyApp extends StatelessWidget {
   const RunMyApp({super.key});
@@ -18,8 +24,7 @@ class RunMyApp extends StatelessWidget {
           title: "Aim-App",
           theme: ThemeData(primarySwatch: Colors.pink),
           home: LoadingPage(),
-        )
-    );
+        ));
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/chart_test.dart';
+import '../pages/generalStats.dart';
 
 /// Flutter code sample for [BottomNavigationBar].
 
@@ -36,7 +37,7 @@ class _BottomNavigationBarExampleState
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ChartPage()),
+          MaterialPageRoute(builder: (context) => GeneralStats()),
         );
         break;
       case 1:
@@ -46,12 +47,6 @@ class _BottomNavigationBarExampleState
         );
         break;
       case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ChartPage()),
-        );
-        break;
-      case 3:
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ChartPage()),
@@ -70,15 +65,11 @@ class _BottomNavigationBarExampleState
       style: optionStyle,
     ),
     Text(
-      'Index 1: Business',
+      'Index 1: Pie Chart',
       style: optionStyle,
     ),
     Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Settings',
+      'Index 2: Line Chart',
       style: optionStyle,
     ),
   ];
@@ -86,29 +77,22 @@ class _BottomNavigationBarExampleState
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      // backgroundColor: Colors.pink,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
-          backgroundColor: Colors.red,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.business),
-          label: 'Business',
-          backgroundColor: Colors.green,
+          icon: Icon(Icons.pie_chart),
+          label: 'Pie Chart',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.school),
-          label: 'School',
-          backgroundColor: Colors.purple,
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Settings',
-          backgroundColor: Colors.pink,
+          icon: Icon(Icons.line_axis),
+          label: 'Line Chart',
         ),
       ],
-      selectedItemColor: Colors.amber[800],
+      selectedItemColor: const Color.fromARGB(255, 255, 171, 62),
       onTap: _onItemTapped,
       currentIndex: _selectedIndex, // Set the current selected index
     );

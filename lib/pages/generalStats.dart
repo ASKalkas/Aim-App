@@ -16,20 +16,13 @@ class GeneralStatsState extends State<GeneralStats> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-              child: ListView(children: [
+      body: ListView(children: [
             Center(child: Followers()),
             SizedBox(height: 30),
             Center(child: Sentiment()),
             SizedBox(height: 30),
             Center(child: Engagement()),
-          ])),
-          SafeArea(
-            child: BottomNavigationBarExample(),
-          )
-        ],
+          ],
       ),
     );
   }

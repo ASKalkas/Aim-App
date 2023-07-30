@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../pages/chart_test.dart';
 import '../pages/generalStats.dart';
+import '../main.dart';
 
 /// Flutter code sample for [BottomNavigationBar].
 
@@ -26,6 +28,7 @@ class BottomNavigationBarExample extends StatefulWidget {
 class _BottomNavigationBarExampleState
     extends State<BottomNavigationBarExample> {
   int _selectedIndex = 0; // Track the selected index
+  late AppState appState;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -35,22 +38,13 @@ class _BottomNavigationBarExampleState
     // Navigate to the corresponding page based on the selected label
     switch (index) {
       case 0:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => GeneralStats()),
-        );
+        appState.setPage(const GeneralStats());
         break;
       case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ChartPage()),
-        );
+        appState.setPage(ChartPage());
         break;
       case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ChartPage()),
-        );
+        appState.setPage(Placeholder());
         break;
       default:
         break;
@@ -76,6 +70,7 @@ class _BottomNavigationBarExampleState
 
   @override
   Widget build(BuildContext context) {
+    appState = context.watch<AppState>();
     return BottomNavigationBar(
       // backgroundColor: Colors.pink,
       items: const <BottomNavigationBarItem>[

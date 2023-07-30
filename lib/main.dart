@@ -39,8 +39,9 @@ class AppState extends ChangeNotifier {
     debugPrint("username: $username");
   }
 
-  void setPage(Widget page){
-    page = page;
+  void setPage(Widget tmp){
+    page = tmp;
+    debugPrint("done");
     notifyListeners();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:text_input/pages/engagementGraphPage.dart';
 import '../pages/pieChart.dart';
 import '../pages/generalStats.dart';
 import '../main.dart';
@@ -44,7 +45,7 @@ class _BottomNavigationBarExampleState
         appState.setPage(PieChart());
         break;
       case 2:
-        appState.setPage(Placeholder());
+        appState.setPage(const EngagementGraphPage());
         break;
       default:
         break;

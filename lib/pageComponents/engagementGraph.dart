@@ -35,6 +35,27 @@ class _EngagementGraphState extends State<EngagementGraph> {
         return "Self-Comments";
       case 4:
         return "Reactions";
+      case 5:
+        return "Shares";
+      default:
+        throw UnimplementedError();
+    }
+  }
+
+  Color getColor() {
+    switch (index) {
+      case 0:
+        return Colors.lightGreen;
+      case 1:
+        return const Color.fromARGB(255, 54, 202, 236);
+      case 2:
+        return Colors.blue;
+      case 3:
+        return Colors.red;
+      case 4:
+        return Colors.orange;
+      case 5:
+        return Colors.purple;
       default:
         throw UnimplementedError();
     }
@@ -72,15 +93,15 @@ class _EngagementGraphState extends State<EngagementGraph> {
   }
 
   List<ChartData> convertList() {
-    List<String> dates = response["data"]["elasticResponse"]["response"]["data"]
+    List dates = response["data"]["elasticResponse"]["response"]["data"]
         ["Total Engagement"]["labels"];
-    List<num> values = response["data"]["elasticResponse"]["response"]["data"]
+    List values = response["data"]["elasticResponse"]["response"]["data"]
         ["Total Engagement"]["datasets"][index]["data"];
 
     List<ChartData> result = [];
 
-    for(int i = 0; i < dates.length; i++){
-      result.add(ChartData(date: dates[i], value: values[i]));
+    for (int i = 0; i < dates.length; i++) {
+      result.add(ChartData(date: dates[i].substring(0, 10), value: values[i]));
     }
 
     return result;
@@ -111,19 +132,23 @@ class _EngagementGraphState extends State<EngagementGraph> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: SfCartesianChart(
-                  primaryXAxis: CategoryAxis(),
+                  primaryXAxis: CategoryAxis(labelRotation: 290),
                   title: ChartTitle(text: getName()),
-                  legend: const Legend(isVisible: true),
-                  series: LineSeries<ChartData, String>(
-                    dataSource: convertList(),
-                    xValueMapper: (ChartData data, _) => data.date,
-                    yValueMapper: (ChartData data, _) => data.value,
-                  ),
+                  // legend: const Legend(isVisible: true),
+                  series: <SplineSeries<ChartData, String>>[
+                    SplineSeries<ChartData, String>(
+                      color: getColor(),
+                      dataSource: convertList(),
+                      xValueMapper: (ChartData data, _) => data.date,
+                      yValueMapper: (ChartData data, _) => data.value,
+                    ),
+                  ],
                 ),
               ),
             );
           } else {
-            return CircularProgressIndicator();
+            return Container(
+                width: 50, height: 50, child: CircularProgressIndicator());
           }
         });
   }

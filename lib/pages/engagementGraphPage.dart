@@ -18,6 +18,8 @@ class EngagementGraphPage extends StatelessWidget{
           EngagementGraph(index: 3),
           SizedBox(height: 30),
           EngagementGraph(index: 4),
+          SizedBox(height: 30),
+          EngagementGraph(index: 5),
         ],
       ),
     );

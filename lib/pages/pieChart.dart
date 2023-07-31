@@ -63,9 +63,19 @@ class _PieChartState extends State<PieChart> {
         child: Container(
           height: 300,
           width: 300,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0xffdddddd),
+                blurRadius: 5,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
           child: SfCircularChart(
-              borderColor: Color.fromRGBO(0, 0, 0, 1),
-              borderWidth: 1,
               legend:
                   const Legend(isVisible: true, position: LegendPosition.right),
               series: <CircularSeries>[

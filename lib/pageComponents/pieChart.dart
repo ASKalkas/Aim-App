@@ -58,39 +58,34 @@ class _PieChartState extends State<PieChart> {
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = convertData(data);
-    return Scaffold(
-      body: Center(
-        child: Container(
-          height: 300,
-          width: 300,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0xffdddddd),
-                blurRadius: 5,
-                spreadRadius: 2,
-              ),
-            ],
+    return Container(
+      height: 300,
+      width: 300,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0xffdddddd),
+            blurRadius: 5,
+            spreadRadius: 2,
           ),
-          child: SfCircularChart(
-              legend:
-                  const Legend(isVisible: true, position: LegendPosition.right),
-              series: <CircularSeries>[
-                // Render pie chart
-                PieSeries<ChartData, String>(
-                    explode: true,
-                    dataSource: chartData,
-                    pointColorMapper: (ChartData data, _) => Color(
-                        int.parse(data.color.substring(1, 7), radix: 16) +
-                            0xFF000000),
-                    xValueMapper: (ChartData data, _) => data.x,
-                    yValueMapper: (ChartData data, _) => data.y)
-              ]),
-        ),
+        ],
       ),
+      child: SfCircularChart(
+          legend: const Legend(isVisible: true, position: LegendPosition.right),
+          series: <CircularSeries>[
+            // Render pie chart
+            PieSeries<ChartData, String>(
+                explode: true,
+                dataSource: chartData,
+                pointColorMapper: (ChartData data, _) => Color(
+                    int.parse(data.color.substring(1, 7), radix: 16) +
+                        0xFF000000),
+                xValueMapper: (ChartData data, _) => data.x,
+                yValueMapper: (ChartData data, _) => data.y)
+          ]),
     );
   }
 }

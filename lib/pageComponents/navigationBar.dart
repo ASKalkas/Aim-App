@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_input/pages/engagementGraphPage.dart';
-import '../pages/pieChart.dart';
+import '../pages/circularChartsPage.dart';
 import '../pages/generalStats.dart';
 import '../pages/profilePage.dart';
 import '../main.dart';
@@ -43,7 +43,7 @@ class _BottomNavigationBarExampleState
         appState.setPage(const GeneralStats());
         break;
       case 1:
-        appState.setPage(PieChart());
+        appState.setPage(const CircularCharts());
         break;
       case 2:
         appState.setPage(const EngagementGraphPage());

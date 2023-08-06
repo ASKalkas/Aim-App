@@ -1,5 +1,9 @@
+import "dart:convert";
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:provider/provider.dart';
+import "../api/api.dart";
+import '../main.dart';
 
 /// Represents MyHomePage class
 class NSS extends StatefulWidget {
@@ -11,6 +15,41 @@ class NSS extends StatefulWidget {
 }
 
 class _NSSState extends State<NSS> {
+  static var gaugeValue;
+  static var appState;
+
+  Future<String> getData() async {
+    var data = {
+      "dashboardId": "12001",
+      "visualizationId": 92013,
+      "time_from": "2023-07-17T00:00:00.000Z",
+      "time_to": "2023-07-24T23:59:59.999Z",
+      "interval": "12h",
+      "filters": {
+        "entities": [
+          {
+            "key": "Dreem Egypt",
+            "id": "694b35b8-d988-4635-8d81-a614491d1444",
+            "value": true
+          }
+        ]
+      },
+      "second_from_date": "2023-07-10T00:00:00.000Z",
+      "second_to_date": "2023-07-17T23:59:59.999Z"
+    };
+    Map<String, String> headers = {
+      "x-access-token": appState.token,
+      "Cookie": "is_migrated=true",
+      "Content-type": "Application/json"
+    };
+    var res = await CallApi().postData(data, "load", headers);
+    gaugeValue = ((json.decode(res.body))["data"]["elasticResponse"]['response']['raw']["data"][0]["sum_value"]*100).toStringAsFixed(1);
+    // debugPrint(res.statusCode.toString());
+    //debugPrint(response["data"]["elasticResponse"]["response"]["data"]["line"]["datasets"][0]["data"][0].toString());
+    return "Done";
+  }
+
+
   Widget _getGauge({bool isRadialGauge = true}) {
     if (isRadialGauge) {
       return _getRadialGauge();
@@ -92,12 +131,12 @@ class _NSSState extends State<NSS> {
                   startWidth: 20,
                   endWidth: 20)
             ], pointers: <GaugePointer>[
-              NeedlePointer(value: 54)
+              NeedlePointer(value: double.parse(gaugeValue)),
             ], annotations: <GaugeAnnotation>[
               GaugeAnnotation(
                   widget: Container(
-                      child: const Text('54 %',
-                          style: TextStyle(
+                      child: Text('$gaugeValue %',
+                          style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold))),
                   angle: 90,
                   positionFactor: 0.5)
@@ -125,8 +164,23 @@ class _NSSState extends State<NSS> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text('Syncfusion Flutter Gauge')),
-        body: _getGauge());
+    appState = context.watch<AppState>();
+    return Container(
+      height: 300,
+      width: 300,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0xffdddddd),
+            blurRadius: 5,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: _getGauge(),
+    );
   }
 }

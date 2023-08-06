@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:text_input/pageComponents/MLDoughnutTest.dart";
+import "package:text_input/pageComponents/NSS.dart";
 import "package:text_input/pages/generalStats.dart";
 import "package:text_input/pages/homePage.dart";
 import "package:text_input/pages/loadingPage.dart";
@@ -26,7 +27,7 @@ class RunMyApp extends StatelessWidget {
         child: MaterialApp(
           title: "Aim-App",
           theme: ThemeData(primarySwatch: Colors.pink),
-          home: DoughnutChart(),
+          home: LoadingPage(),
         ));
   }
 }

@@ -73,7 +73,7 @@ class _BottomNavigationBarExampleState
   Widget build(BuildContext context) {
     appState = context.watch<AppState>();
     return BottomNavigationBar(
-      // backgroundColor: Colors.pink,
+      backgroundColor: Color.fromARGB(255, 84, 198, 28),
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
@@ -87,8 +87,13 @@ class _BottomNavigationBarExampleState
           icon: Icon(Icons.line_axis),
           label: 'Line Chart',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.account_circle_outlined),
+          label: 'My Profile',
+        ),
       ],
       selectedItemColor: const Color.fromARGB(255, 255, 171, 62),
+      unselectedItemColor: Color.fromARGB(255, 254, 222, 135),
       onTap: _onItemTapped,
       currentIndex: _selectedIndex, // Set the current selected index
     );

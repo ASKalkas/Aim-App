@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:text_input/pageComponents/MLDoughnutTest.dart";
 import "package:text_input/pages/generalStats.dart";
 import "package:text_input/pages/homePage.dart";
 import "package:text_input/pages/loadingPage.dart";
@@ -25,7 +26,7 @@ class RunMyApp extends StatelessWidget {
         child: MaterialApp(
           title: "Aim-App",
           theme: ThemeData(primarySwatch: Colors.pink),
-          home: LoadingPage(),
+          home: DoughnutChart(),
         ));
   }
 }
@@ -40,7 +41,7 @@ class AppState extends ChangeNotifier {
     debugPrint("username: $username");
   }
 
-  void setPage(Widget tmp){
+  void setPage(Widget tmp) {
     page = tmp;
     debugPrint("done");
     notifyListeners();

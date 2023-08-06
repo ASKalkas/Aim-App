@@ -29,6 +29,7 @@ class RunMyApp extends StatelessWidget {
 class AppState extends ChangeNotifier {
   var token = "token";
   var username = "username";
+  var password = "password";
   Widget page = const GeneralStats();
 
   void printTest() {

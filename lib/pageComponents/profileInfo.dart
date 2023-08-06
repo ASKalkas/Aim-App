@@ -130,30 +130,6 @@ class ProfileInfo extends StatelessWidget {
                               .toString()),
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      const Text("Password",
-                          style: TextStyle(
-                            fontSize: 16,
-                          )),
-                      const SizedBox(height: 10),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0xffdddddd),
-                              blurRadius: 5,
-                              spreadRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(appState.password.toString()),
-                        ),
-                      ),
                     ],
                   ),
                 ),

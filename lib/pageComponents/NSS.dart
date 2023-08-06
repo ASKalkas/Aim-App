@@ -43,12 +43,14 @@ class _NSSState extends State<NSS> {
       "Content-type": "Application/json"
     };
     var res = await CallApi().postData(data, "load", headers);
-    gaugeValue = ((json.decode(res.body))["data"]["elasticResponse"]['response']['raw']["data"][0]["sum_value"]*100).toStringAsFixed(1);
+    gaugeValue = ((json.decode(res.body))["data"]["elasticResponse"]['response']
+                ['raw']["data"][0]["sum_value"] *
+            100)
+        .toStringAsFixed(1);
     // debugPrint(res.statusCode.toString());
     //debugPrint(response["data"]["elasticResponse"]["response"]["data"]["line"]["datasets"][0]["data"][0].toString());
     return "Done";
   }
-
 
   Widget _getGauge({bool isRadialGauge = true}) {
     if (isRadialGauge) {
@@ -60,89 +62,73 @@ class _NSSState extends State<NSS> {
 
   Widget _getRadialGauge() {
     return Center(
-        child: Container(
-      height: 300,
-      width: 300,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0xffdddddd),
-            blurRadius: 5,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: SfRadialGauge(
-          title: GaugeTitle(
-              text: 'NSS',
-              textStyle: const TextStyle(
-                  fontSize: 20.0, fontWeight: FontWeight.normal)),
-          axes: <RadialAxis>[
-            RadialAxis(minimum: 0, maximum: 100, ranges: <GaugeRange>[
-              GaugeRange(
-                  startValue: 0,
-                  endValue: 12.5,
-                  color: Colors.red[600],
-                  startWidth: 20,
-                  endWidth: 20),
-              GaugeRange(
-                  startValue: 12.5,
-                  endValue: 25,
-                  color: Colors.red[400],
-                  startWidth: 20,
-                  endWidth: 20),
-              GaugeRange(
-                  startValue: 25,
-                  endValue: 37.5,
-                  color: Colors.red[200],
-                  startWidth: 20,
-                  endWidth: 20),
-              GaugeRange(
-                  startValue: 37.5,
-                  endValue: 50,
-                  color: Colors.red[100],
-                  startWidth: 20,
-                  endWidth: 20),
-              GaugeRange(
-                  startValue: 50,
-                  endValue: 62.5,
-                  color: Colors.green[100],
-                  startWidth: 20,
-                  endWidth: 20),
-              GaugeRange(
-                  startValue: 62.5,
-                  endValue: 75,
-                  color: Colors.green[200],
-                  startWidth: 20,
-                  endWidth: 20),
-              GaugeRange(
-                  startValue: 75,
-                  endValue: 87.5,
-                  color: Colors.green[400],
-                  startWidth: 20,
-                  endWidth: 20),
-              GaugeRange(
-                  startValue: 87.5,
-                  endValue: 100,
-                  color: Colors.green[600],
-                  startWidth: 20,
-                  endWidth: 20)
-            ], pointers: <GaugePointer>[
-              NeedlePointer(value: double.parse(gaugeValue)),
-            ], annotations: <GaugeAnnotation>[
-              GaugeAnnotation(
-                  widget: Container(
-                      child: Text('$gaugeValue %',
-                          style: const TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold))),
-                  angle: 90,
-                  positionFactor: 0.5)
-            ])
-          ]),
-    ));
+        child: SfRadialGauge(
+            title: GaugeTitle(
+                text: 'NSS',
+                textStyle: const TextStyle(
+                    fontSize: 20.0, fontWeight: FontWeight.normal)),
+            axes: <RadialAxis>[
+              RadialAxis(minimum: 0, maximum: 100, ranges: <GaugeRange>[
+                GaugeRange(
+                    startValue: 0,
+                    endValue: 12.5,
+                    color: Colors.red[600],
+                    startWidth: 20,
+                    endWidth: 20),
+                GaugeRange(
+                    startValue: 12.5,
+                    endValue: 25,
+                    color: Colors.red[400],
+                    startWidth: 20,
+                    endWidth: 20),
+                GaugeRange(
+                    startValue: 25,
+                    endValue: 37.5,
+                    color: Colors.red[200],
+                    startWidth: 20,
+                    endWidth: 20),
+                GaugeRange(
+                    startValue: 37.5,
+                    endValue: 50,
+                    color: Colors.red[100],
+                    startWidth: 20,
+                    endWidth: 20),
+                GaugeRange(
+                    startValue: 50,
+                    endValue: 62.5,
+                    color: Colors.green[100],
+                    startWidth: 20,
+                    endWidth: 20),
+                GaugeRange(
+                    startValue: 62.5,
+                    endValue: 75,
+                    color: Colors.green[200],
+                    startWidth: 20,
+                    endWidth: 20),
+                GaugeRange(
+                    startValue: 75,
+                    endValue: 87.5,
+                    color: Colors.green[400],
+                    startWidth: 20,
+                    endWidth: 20),
+                GaugeRange(
+                    startValue: 87.5,
+                    endValue: 100,
+                    color: Colors.green[600],
+                    startWidth: 20,
+                    endWidth: 20)
+              ], pointers: <GaugePointer>[
+                NeedlePointer(value: double.parse(gaugeValue)),
+              ], annotations: <GaugeAnnotation>[
+                GaugeAnnotation(
+                    widget: Container(
+                        child: Text('$gaugeValue %',
+                            style: const TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold))),
+                    angle: 90,
+                    positionFactor: 0.5)
+              ])
+            ]));
   }
 
   Widget _getLinearGauge() {
@@ -165,22 +151,31 @@ class _NSSState extends State<NSS> {
   @override
   Widget build(BuildContext context) {
     appState = context.watch<AppState>();
-    return Container(
-      height: 300,
-      width: 300,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0xffdddddd),
-            blurRadius: 5,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: _getGauge(),
-    );
+    return FutureBuilder(
+        future: getData(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+              height: 300,
+              width: 330,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0xffdddddd),
+                    blurRadius: 5,
+                    spreadRadius: 2,
+                  ),
+                ],
+              ),
+              child: _getGauge(),
+            );
+          } else {
+            return Container(
+                width: 50, height: 50, child: CircularProgressIndicator());
+          }
+        });
   }
 }

@@ -1,28 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-/// Represents the GaugeApp class
-class GaugeApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'NSS',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: MyHomePage(),
-    );
-  }
-}
-
 /// Represents MyHomePage class
-class MyHomePage extends StatefulWidget {
+class NSS extends StatefulWidget {
   /// Creates the instance of MyHomePage
-  MyHomePage({Key? key}) : super(key: key);
+  NSS({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _NSSState createState() => _NSSState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _NSSState extends State<NSS> {
   Widget _getGauge({bool isRadialGauge = true}) {
     if (isRadialGauge) {
       return _getRadialGauge();

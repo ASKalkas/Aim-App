@@ -36,8 +36,9 @@ class LoginState extends State<Login> {
     //appState.printTest();
 
     if (code == 200) {
-    appState.token = body["token"];
-    appState.username = body["data"]["user"]["username"];
+      appState.token = body["token"];
+      appState.username = body["data"]["user"]["username"];
+      appState.password = pass.text;
       // ignore: use_build_context_synchronously
       Navigator.push(
         context,

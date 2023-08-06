@@ -1,14 +1,8 @@
 import "package:flutter/material.dart";
-import "package:text_input/pageComponents/MLDoughnutTest.dart";
-import "package:text_input/pageComponents/NSS.dart";
 import "package:text_input/pages/generalStats.dart";
-import "package:text_input/pages/homePage.dart";
 import "package:text_input/pages/loadingPage.dart";
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
-// import "pages/generalStats.dart";
-// import 'pages/logIn.dart';
-// import "pages/chart_test.dart";
 
 void main() {
   runApp(RunMyApp());

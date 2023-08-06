@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:text_input/pages/engagementGraphPage.dart';
 import '../pages/pieChart.dart';
 import '../pages/generalStats.dart';
+import '../pages/profilePage.dart';
 import '../main.dart';
 
 /// Flutter code sample for [BottomNavigationBar].
@@ -47,6 +48,8 @@ class _BottomNavigationBarExampleState
       case 2:
         appState.setPage(const EngagementGraphPage());
         break;
+      case 3:
+        appState.setPage(const ProfilePage());
       default:
         break;
     }
@@ -65,6 +68,10 @@ class _BottomNavigationBarExampleState
     ),
     Text(
       'Index 2: Line Chart',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 3: Profile',
       style: optionStyle,
     ),
   ];

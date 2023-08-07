@@ -28,6 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  syncfusion_flutter_pdf: ^22.2.7
+  open_file: ^3.2.1
+  pdf: ^3.10.4
+  path_provider: ^2.0.11
   syncfusion_flutter_charts: ^22.1.37
   syncfusion_flutter_gauges: ^22.2.7
   flutter_svg: ^1.0.0

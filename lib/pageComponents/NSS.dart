@@ -1,9 +1,17 @@
 import "dart:convert";
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 import "../api/api.dart";
 import '../main.dart';
+import 'dart:ui' as ui;
+import 'dart:async';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// Represents MyHomePage class
 class NSS extends StatefulWidget {
@@ -15,6 +23,7 @@ class NSS extends StatefulWidget {
 }
 
 class _NSSState extends State<NSS> {
+  final GlobalKey _gaugeKey = GlobalKey();
   static var gaugeValue;
   static var appState;
 
@@ -68,67 +77,67 @@ class _NSSState extends State<NSS> {
                 textStyle: const TextStyle(
                     fontSize: 20.0, fontWeight: FontWeight.normal)),
             axes: <RadialAxis>[
-              RadialAxis(minimum: 0, maximum: 100, ranges: <GaugeRange>[
-                GaugeRange(
-                    startValue: 0,
-                    endValue: 12.5,
-                    color: Colors.red[600],
-                    startWidth: 20,
-                    endWidth: 20),
-                GaugeRange(
-                    startValue: 12.5,
-                    endValue: 25,
-                    color: Colors.red[400],
-                    startWidth: 20,
-                    endWidth: 20),
-                GaugeRange(
-                    startValue: 25,
-                    endValue: 37.5,
-                    color: Colors.red[200],
-                    startWidth: 20,
-                    endWidth: 20),
-                GaugeRange(
-                    startValue: 37.5,
-                    endValue: 50,
-                    color: Colors.red[100],
-                    startWidth: 20,
-                    endWidth: 20),
-                GaugeRange(
-                    startValue: 50,
-                    endValue: 62.5,
-                    color: Colors.green[100],
-                    startWidth: 20,
-                    endWidth: 20),
-                GaugeRange(
-                    startValue: 62.5,
-                    endValue: 75,
-                    color: Colors.green[200],
-                    startWidth: 20,
-                    endWidth: 20),
-                GaugeRange(
-                    startValue: 75,
-                    endValue: 87.5,
-                    color: Colors.green[400],
-                    startWidth: 20,
-                    endWidth: 20),
-                GaugeRange(
-                    startValue: 87.5,
-                    endValue: 100,
-                    color: Colors.green[600],
-                    startWidth: 20,
-                    endWidth: 20)
-              ], pointers: <GaugePointer>[
-                NeedlePointer(value: double.parse(gaugeValue)),
-              ], annotations: <GaugeAnnotation>[
-                GaugeAnnotation(
-                    widget: Container(
-                        child: Text('$gaugeValue %',
-                            style: const TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold))),
-                    angle: 90,
-                    positionFactor: 0.5)
-              ])
-            ]));
+          RadialAxis(minimum: 0, maximum: 100, ranges: <GaugeRange>[
+            GaugeRange(
+                startValue: 0,
+                endValue: 12.5,
+                color: Colors.red[600],
+                startWidth: 20,
+                endWidth: 20),
+            GaugeRange(
+                startValue: 12.5,
+                endValue: 25,
+                color: Colors.red[400],
+                startWidth: 20,
+                endWidth: 20),
+            GaugeRange(
+                startValue: 25,
+                endValue: 37.5,
+                color: Colors.red[200],
+                startWidth: 20,
+                endWidth: 20),
+            GaugeRange(
+                startValue: 37.5,
+                endValue: 50,
+                color: Colors.red[100],
+                startWidth: 20,
+                endWidth: 20),
+            GaugeRange(
+                startValue: 50,
+                endValue: 62.5,
+                color: Colors.green[100],
+                startWidth: 20,
+                endWidth: 20),
+            GaugeRange(
+                startValue: 62.5,
+                endValue: 75,
+                color: Colors.green[200],
+                startWidth: 20,
+                endWidth: 20),
+            GaugeRange(
+                startValue: 75,
+                endValue: 87.5,
+                color: Colors.green[400],
+                startWidth: 20,
+                endWidth: 20),
+            GaugeRange(
+                startValue: 87.5,
+                endValue: 100,
+                color: Colors.green[600],
+                startWidth: 20,
+                endWidth: 20)
+          ], pointers: <GaugePointer>[
+            NeedlePointer(value: double.parse(gaugeValue)),
+          ], annotations: <GaugeAnnotation>[
+            GaugeAnnotation(
+                widget: Container(
+                    child: Text('$gaugeValue %',
+                        style: const TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold))),
+                angle: 90,
+                positionFactor: 0.5)
+          ])
+        ]));
   }
 
   Widget _getLinearGauge() {
@@ -170,12 +179,51 @@ class _NSSState extends State<NSS> {
                   ),
                 ],
               ),
-              child: _getGauge(),
+              child: RepaintBoundary(
+                // Step 2: Wrap the gauge with RepaintBoundary
+                key: _gaugeKey,
+                child: _getGauge(),
+              ),
             );
           } else {
             return Container(
                 width: 50, height: 50, child: CircularProgressIndicator());
           }
         });
+  }
+
+  Future<void> _renderPDF() async {
+    final List<int> imageBytes = await _readImageData();
+    final PdfBitmap bitmap = PdfBitmap(imageBytes);
+    final PdfDocument document = PdfDocument();
+    document.pageSettings.size =
+        Size(bitmap.width.toDouble(), bitmap.height.toDouble());
+    final PdfPage page = document.pages.add();
+    final Size pageSize = page.getClientSize();
+    page.graphics.drawImage(
+        bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
+    final List<int> bytes = document.saveSync();
+    document.dispose();
+    //Get external storage directory
+    final Directory directory = await getApplicationSupportDirectory();
+    //Get directory path
+    final String path = directory.path;
+    //Create an empty file to write PDF data
+    File file = File('$path/Output.pdf');
+    //Write PDF bytes data
+    await file.writeAsBytes(bytes, flush: true);
+    //Open the PDF document in mobile
+    OpenFile.open('$path/Output.pdf');
+  }
+
+  Future<List<int>> _readImageData() async {
+    final boundary =
+        _gaugeKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    // Capture the image from the boundary
+    ui.Image data = await boundary.toImage(pixelRatio: 3.0);
+
+    final ByteData? bytes =
+        await data.toByteData(format: ui.ImageByteFormat.png);
+    return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
 }

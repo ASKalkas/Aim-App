@@ -179,10 +179,17 @@ class _NSSState extends State<NSS> {
                   ),
                 ],
               ),
-              child: RepaintBoundary(
-                // Step 2: Wrap the gauge with RepaintBoundary
-                key: _gaugeKey,
-                child: _getGauge(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RepaintBoundary(
+                    // Step 2: Wrap the gauge with RepaintBoundary
+                    key: _gaugeKey,
+                    child: _getGauge(),
+                  ),
+                  ElevatedButton(
+                    onPressed: _renderPDF, child: Text("Export"))
+                ],
               ),
             );
           } else {

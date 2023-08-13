@@ -3,6 +3,7 @@ import "package:text_input/pages/generalStats.dart";
 import "package:text_input/pages/loadingPage.dart";
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'pageComponents/sentimentDoughnutChart.dart';
 
 void main() {
   runApp(RunMyApp());

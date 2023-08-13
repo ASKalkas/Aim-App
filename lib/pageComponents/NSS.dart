@@ -165,7 +165,7 @@ class _NSSState extends State<NSS> {
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return Container(
-              height: 300,
+              height: 420,
               width: 330,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -179,22 +179,25 @@ class _NSSState extends State<NSS> {
                   ),
                 ],
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RepaintBoundary(
-                    // Step 2: Wrap the gauge with RepaintBoundary
-                    key: _gaugeKey,
-                    child: _getGauge(),
-                  ),
-                  ElevatedButton(
-                    onPressed: _renderPDF, child: Text("Export"))
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RepaintBoundary(
+                      // Step 2: Wrap the gauge with RepaintBoundary
+                      key: _gaugeKey,
+                      child: _getGauge(),
+                    ),
+                    ElevatedButton(
+                      onPressed: _renderPDF, child: Text("Export"))
+                  ],
+                ),
               ),
             );
           } else {
             return Container(
-                width: 50, height: 50, child: CircularProgressIndicator());
+                width: 50, height: 50, child: const CircularProgressIndicator());
           }
         });
   }

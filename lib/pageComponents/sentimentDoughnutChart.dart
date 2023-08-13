@@ -1,39 +1,10 @@
 import 'dart:math';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-void main() {
-  runApp(const RunMyApp());
-}
-
-class RunMyApp extends StatelessWidget {
-  const RunMyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Aim-App",
-      theme: ThemeData(primarySwatch: Colors.pink),
-      home: DoughnutChart(),
-    );
-  }
-}
-
-class DoughnutChart extends StatelessWidget {
-  const DoughnutChart({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Multi-Level Drill-Down Doughnut Chart'),
-      ),
-      body: const Center(
-        child: SentimentDoughnut(),
-      ),
-    );
-  }
-}
+import 'package:provider/provider.dart';
+import '../main.dart';
+import '../api/api.dart';
 
 class SentimentDoughnut extends StatefulWidget {
   const SentimentDoughnut({super.key});
@@ -44,71 +15,60 @@ class SentimentDoughnut extends StatefulWidget {
 
 class _SentimentDoughnutState extends State<SentimentDoughnut> {
   List<ChartSampleData> data = [];
+  late AppState appState;
 
-  static var response = {
-    "sentiment": [
-      {
-        "key": "negative",
-        "value": 31,
-        "color": Colors.red,
-        "drivers": [
-          {"key": "Prices/الأسعار", "value": 17},
-          {"key": "Package/العبوة", "value": 6},
-          {"key": "Ads/الإعلانات", "value": 5},
-          {"key": "الحجم/Size&Quantity", "value": 4},
-          {"key": "Availability/التوفر", "value": 3},
-          {"key": "الصحة/Health", "value": 0},
-        ],
-      },
-      {
-        "key": "neutral",
-        "value": 5,
-        "color": Colors.grey,
-        "drivers": [
-          {"key": "Prices/الأسعار", "value": 2},
-          {"key": "Package/العبوة", "value": 2},
-          {"key": "Ads/الإعلانات", "value": 1},
-          {"key": "الحجم/Size&Quantity", "value": 0},
-          {"key": "Availability/التوفر", "value": 0},
-          {"key": "الصحة/Health", "value": 0},
-        ],
-      },
-      {
-        "key": "positive",
-        "value": 4,
-        "color": Colors.green,
-        "drivers": [
-          {"key": "Prices/الأسعار", "value": 2},
-          {"key": "Package/العبوة", "value": 2},
-          {"key": "Ads/الإعلانات", "value": 1},
-          {"key": "الحجم/Size&Quantity", "value": 0},
-          {"key": "Availability/التوفر", "value": 0},
-          {"key": "الصحة/Health", "value": 0},
-        ],
-      },
-    ],
-  };
+  static var response = {};
 
   int _level = 0;
   int currIndex = -1;
 
-  Color _randomColor(){
-    int a = 255;
-    int r = Random().nextInt(256);
-    int g = Random().nextInt(256);
-    int b = Random().nextInt(256);
-    return Color.fromARGB(a, r, g, b);
+  Future<String> getData() async {
+    var data = {
+      "dashboardId": "12001",
+      "visualizationId": 92006,
+      "time_from": "2023-07-17T00:00:00.000Z",
+      "time_to": "2023-07-24T23:59:59.999Z",
+      "interval": "12h",
+      "filters": {
+        "entities": [
+          {
+            "key": "Dreem Egypt",
+            "id": "694b35b8-d988-4635-8d81-a614491d1444",
+            "value": true
+          }
+        ]
+      },
+      "second_from_date": "2023-07-10T00:00:00.000Z",
+      "second_to_date": "2023-07-17T23:59:59.999Z"
+    };
+    Map<String, String> headers = {
+      "x-access-token": appState.token,
+      "Cookie": "is_migrated=true",
+      "Content-type": "Application/json"
+    };
+    var res = await CallApi().postData(data, "load", headers);
+    response = json.decode(res.body);
+    debugPrint(res.statusCode.toString());
+    //debugPrint(response["data"]["elasticResponse"]["response"]["data"]["line"]["datasets"][0]["data"][0].toString());
+    return "Done";
   }
 
   void _onDataLabelTapped(ChartPointDetails details) {
     if (_level < 1) {
       setState(() {
         _level++;
-        switch(details.dataPoints![details.pointIndex!].x.toString()){
-          case "negative": currIndex = 0; break;
-          case "neutral": currIndex = 1; break;
-          case "positive": currIndex = 2; break;
-          default: currIndex = -1;
+        switch (details.dataPoints![details.pointIndex!].x.toString()) {
+          case "neutral":
+            currIndex = 0;
+            break;
+          case "negative":
+            currIndex = 1;
+            break;
+          case "positive":
+            currIndex = 2;
+            break;
+          default:
+            currIndex = -1;
         }
         _fillData();
       });
@@ -119,22 +79,49 @@ class _SentimentDoughnutState extends State<SentimentDoughnut> {
     data.clear();
     switch (_level) {
       case 0:
-        for (int i = 0; i < response["sentiment"]!.length; i++) {
-          if(response["sentiment"]![i]["value"] as int == 0){
+        for (int i = 0;
+            i <
+                response["data"]["elasticResponse"]["response"]["data"]["data"]
+                        ["children"]
+                    .length;
+            i++) {
+          if (response["data"]["elasticResponse"]["response"]["data"]["data"]
+                  ["children"][i]["doc_count"] as int ==
+              0) {
             continue;
           }
+          String name = response["data"]["elasticResponse"]["response"]["data"]["data"]
+                      ["children"][i]["name"]
+                  .toString();
           data.add(ChartSampleData(
-              response["sentiment"]![i]["key"].toString(),
-              response["sentiment"]![i]["value"] as int,
-              response["sentiment"]![i]["color"] as Color));
+              name,
+              response["data"]["elasticResponse"]["response"]["data"]["data"]
+                  ["children"][i]["doc_count"] as int,
+              Color(int.parse(
+                  "0xff${response["data"]["elasticResponse"]["response"]["data"]["colors"][name].toString().replaceAll('#', '')}"))));
         }
         break;
       case 1:
-        for (int i = 0; i < (response["sentiment"]![currIndex]["drivers"]! as List).length; i++) {
+        for (int i = 0;
+            i <
+                (response["data"]["elasticResponse"]["response"]["data"]["data"]
+                        ["children"][currIndex]["children"] as List)
+                    .length;
+            i++) {
+          if (response["data"]["elasticResponse"]["response"]["data"]["data"]
+                  ["children"][currIndex]["children"][i]["doc_count"] as int ==
+              0) {
+            continue;
+          }
+          String name= response["data"]["elasticResponse"]["response"]["data"]["data"]
+                      ["children"][currIndex]["children"][i]["name"]
+                  .toString();
           data.add(ChartSampleData(
-              (response["sentiment"]![currIndex]["drivers"]! as List)[i]["key"].toString(),
-              (response["sentiment"]![currIndex]["drivers"]! as List)[i]["value"] as int,
-              _randomColor()));
+              name,
+              response["data"]["elasticResponse"]["response"]["data"]["data"]
+                  ["children"][currIndex]["children"][i]["doc_count"] as int,
+              Color(
+                  int.parse("0xff${response["data"]["elasticResponse"]["response"]["data"]["colors"][name].toString().substring(1)}"))));
         }
         break;
     }
@@ -142,50 +129,80 @@ class _SentimentDoughnutState extends State<SentimentDoughnut> {
 
   @override
   Widget build(BuildContext context) {
-    _fillData();
-    return Stack(
-      children: [
-        Center(
-          child: SfCircularChart(
-            series: <DoughnutSeries<ChartSampleData, String>>[
-              DoughnutSeries<ChartSampleData, String>(
-                dataSource: data,
-                pointColorMapper: (ChartSampleData data, _) => data.color,
-                xValueMapper: (ChartSampleData data, _) => data.x,
-                yValueMapper: (ChartSampleData data, _) => data.y,
-                dataLabelSettings: const DataLabelSettings(isVisible: true),
-                dataLabelMapper: (ChartSampleData data, _) => data.x,
-                //explode: true,
-                explodeIndex: 0,
-                explodeOffset: '10%',
-                explodeAll: true,
-                onPointTap: _onDataLabelTapped,
+    appState = context.watch<AppState>();
+    return FutureBuilder(
+        future: getData(),
+        builder: (context, AsyncSnapshot snapShot) {
+          if (snapShot.hasData) {
+            _fillData();
+            return Container(
+              height: 400,
+              width: 330,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0xffdddddd),
+                    blurRadius: 5,
+                    spreadRadius: 2,
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        Center(
-          child: SizedBox(
-            width: 100,
-            height: 100,
-            child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  if (_level > 0) {
-                    _level--;
-                    _fillData();
-                  }
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Stack(
+                  children: [
+                    Center(
+                      child: SfCircularChart(
+                        series: <DoughnutSeries<ChartSampleData, String>>[
+                          DoughnutSeries<ChartSampleData, String>(
+                            dataSource: data,
+                            pointColorMapper: (ChartSampleData data, _) =>
+                                data.color,
+                            xValueMapper: (ChartSampleData data, _) => data.x,
+                            yValueMapper: (ChartSampleData data, _) => data.y,
+                            dataLabelSettings:
+                                const DataLabelSettings(isVisible: true),
+                            dataLabelMapper: (ChartSampleData data, _) => data.x,
+                            //explode: true,
+                            explodeIndex: 0,
+                            explodeOffset: '10%',
+                            explodeAll: true,
+                            onPointTap: _onDataLabelTapped,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Center(
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              if (_level > 0) {
+                                _level--;
+                                _fillData();
+                              }
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                          ),
+                          child: const Text("Back"),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              child: const Text("Back"),
-            ),
-          ),
-        ),
-      ],
-    );
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        });
   }
 }
 

@@ -60,7 +60,7 @@ class _PieChartState extends State<PieChart> {
     final List<ChartData> chartData = convertData(data);
     return Container(
       height: 300,
-      width: 300,
+      width: 330,
       decoration: BoxDecoration(
         color: Colors.white,
         shape: BoxShape.rectangle,
@@ -73,19 +73,22 @@ class _PieChartState extends State<PieChart> {
           ),
         ],
       ),
-      child: SfCircularChart(
-          legend: const Legend(isVisible: true, position: LegendPosition.right),
-          series: <CircularSeries>[
-            // Render pie chart
-            PieSeries<ChartData, String>(
-                explode: true,
-                dataSource: chartData,
-                pointColorMapper: (ChartData data, _) => Color(
-                    int.parse(data.color.substring(1, 7), radix: 16) +
-                        0xFF000000),
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y)
-          ]),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: SfCircularChart(
+            legend: const Legend(isVisible: true, position: LegendPosition.right),
+            series: <CircularSeries>[
+              // Render pie chart
+              PieSeries<ChartData, String>(
+                  explode: true,
+                  dataSource: chartData,
+                  pointColorMapper: (ChartData data, _) => Color(
+                      int.parse(data.color.substring(1, 7), radix: 16) +
+                          0xFF000000),
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y)
+            ]),
+      ),
     );
   }
 }

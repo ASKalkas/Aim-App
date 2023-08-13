@@ -148,7 +148,7 @@ class _EngagementGraphState extends State<EngagementGraph> {
             );
           } else {
             return Container(
-                width: 50, height: 50, child: CircularProgressIndicator());
+                width: 50, height: 50, child: const CircularProgressIndicator());
           }
         });
   }

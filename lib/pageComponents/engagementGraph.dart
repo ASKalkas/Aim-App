@@ -3,7 +3,8 @@ import "package:flutter/material.dart";
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:provider/provider.dart';
 import "../main.dart";
-import "../api/api.dart";
+import "../GlobalMethods/api.dart";
+import "../GlobalMethods/pdf.dart";
 
 class EngagementGraph extends StatefulWidget {
   const EngagementGraph({
@@ -22,6 +23,7 @@ class _EngagementGraphState extends State<EngagementGraph> {
   var response = {};
   late AppState appState;
   final index;
+  final GlobalKey _graphKey = GlobalKey();
 
   String getName() {
     switch (index) {
@@ -116,7 +118,7 @@ class _EngagementGraphState extends State<EngagementGraph> {
           if (snapShot.hasData) {
             return Container(
               width: 330,
-              height: 300,
+              height: 400,
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.rectangle,
@@ -129,26 +131,38 @@ class _EngagementGraphState extends State<EngagementGraph> {
                   ),
                 ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: SfCartesianChart(
-                  primaryXAxis: CategoryAxis(labelRotation: 290),
-                  title: ChartTitle(text: getName()),
-                  // legend: const Legend(isVisible: true),
-                  series: <SplineSeries<ChartData, String>>[
-                    SplineSeries<ChartData, String>(
-                      color: getColor(),
-                      dataSource: convertList(),
-                      xValueMapper: (ChartData data, _) => data.date,
-                      yValueMapper: (ChartData data, _) => data.value,
+              child: Column(
+                children: [
+                  RepaintBoundary(
+                    key: _graphKey,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: SfCartesianChart(
+                        primaryXAxis: CategoryAxis(labelRotation: 290),
+                        title: ChartTitle(text: getName()),
+                        // legend: const Legend(isVisible: true),
+                        series: <SplineSeries<ChartData, String>>[
+                          SplineSeries<ChartData, String>(
+                            color: getColor(),
+                            dataSource: convertList(),
+                            xValueMapper: (ChartData data, _) => data.date,
+                            yValueMapper: (ChartData data, _) => data.value,
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  ElevatedButton(
+                      onPressed: () => {ExportPdf.renderPDF(_graphKey)},
+                      child: Text("Export")),
+                ],
               ),
             );
           } else {
             return Container(
-                width: 50, height: 50, child: const CircularProgressIndicator());
+                width: 50,
+                height: 50,
+                child: const CircularProgressIndicator());
           }
         });
   }

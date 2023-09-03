@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:text_input/GlobalMethods/pdf.dart';
+import "../GlobalMethods/pdf.dart";
 
 class PieChart extends StatefulWidget {
   @override
@@ -41,6 +43,8 @@ class _PieChartState extends State<PieChart> {
     }
   };
 
+  final GlobalKey _pieKey = GlobalKey();
+
   List<ChartData> convertData(var data) {
     List<ChartData> res = <ChartData>[];
     for (var i = 0; i < data["data"]["labels"].length; i++) {
@@ -59,7 +63,7 @@ class _PieChartState extends State<PieChart> {
   Widget build(BuildContext context) {
     final List<ChartData> chartData = convertData(data);
     return Container(
-      height: 300,
+      height: 400,
       width: 330,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -73,21 +77,32 @@ class _PieChartState extends State<PieChart> {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SfCircularChart(
-            legend: const Legend(isVisible: true, position: LegendPosition.right),
-            series: <CircularSeries>[
-              // Render pie chart
-              PieSeries<ChartData, String>(
-                  explode: true,
-                  dataSource: chartData,
-                  pointColorMapper: (ChartData data, _) => Color(
-                      int.parse(data.color.substring(1, 7), radix: 16) +
-                          0xFF000000),
-                  xValueMapper: (ChartData data, _) => data.x,
-                  yValueMapper: (ChartData data, _) => data.y)
-            ]),
+      child: Column(
+        children: [
+          RepaintBoundary(
+            key: _pieKey,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SfCircularChart(
+                  legend: const Legend(
+                      isVisible: true, position: LegendPosition.right),
+                  series: <CircularSeries>[
+                    // Render pie chart
+                    PieSeries<ChartData, String>(
+                        explode: true,
+                        dataSource: chartData,
+                        pointColorMapper: (ChartData data, _) => Color(
+                            int.parse(data.color.substring(1, 7), radix: 16) +
+                                0xFF000000),
+                        xValueMapper: (ChartData data, _) => data.x,
+                        yValueMapper: (ChartData data, _) => data.y)
+                  ]),
+            ),
+          ),
+          ElevatedButton(
+              onPressed: () => {ExportPdf.renderPDF(_pieKey)},
+              child: Text("Export"))
+        ],
       ),
     );
   }

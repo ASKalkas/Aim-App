@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
-import '../api/api.dart';
+import '../GlobalMethods/api.dart';
 
 class SentimentDoughnut extends StatefulWidget {
   const SentimentDoughnut({super.key});
@@ -90,9 +90,9 @@ class _SentimentDoughnutState extends State<SentimentDoughnut> {
               0) {
             continue;
           }
-          String name = response["data"]["elasticResponse"]["response"]["data"]["data"]
-                      ["children"][i]["name"]
-                  .toString();
+          String name = response["data"]["elasticResponse"]["response"]["data"]
+                  ["data"]["children"][i]["name"]
+              .toString();
           data.add(ChartSampleData(
               name,
               response["data"]["elasticResponse"]["response"]["data"]["data"]
@@ -113,15 +113,15 @@ class _SentimentDoughnutState extends State<SentimentDoughnut> {
               0) {
             continue;
           }
-          String name= response["data"]["elasticResponse"]["response"]["data"]["data"]
-                      ["children"][currIndex]["children"][i]["name"]
-                  .toString();
+          String name = response["data"]["elasticResponse"]["response"]["data"]
+                  ["data"]["children"][currIndex]["children"][i]["name"]
+              .toString();
           data.add(ChartSampleData(
               name,
               response["data"]["elasticResponse"]["response"]["data"]["data"]
                   ["children"][currIndex]["children"][i]["doc_count"] as int,
-              Color(
-                  int.parse("0xff${response["data"]["elasticResponse"]["response"]["data"]["colors"][name].toString().substring(1)}"))));
+              Color(int.parse(
+                  "0xff${response["data"]["elasticResponse"]["response"]["data"]["colors"][name].toString().substring(1)}"))));
         }
         break;
     }
@@ -165,7 +165,8 @@ class _SentimentDoughnutState extends State<SentimentDoughnut> {
                             yValueMapper: (ChartSampleData data, _) => data.y,
                             dataLabelSettings:
                                 const DataLabelSettings(isVisible: true),
-                            dataLabelMapper: (ChartSampleData data, _) => data.x,
+                            dataLabelMapper: (ChartSampleData data, _) =>
+                                data.x,
                             //explode: true,
                             explodeIndex: 0,
                             explodeOffset: '10%',

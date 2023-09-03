@@ -4,7 +4,8 @@ import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import "../main.dart";
-import "../api/api.dart";
+import "../GlobalMethods/api.dart";
+import "../GlobalMethods/pdf.dart";
 
 class Engagement extends StatefulWidget {
   const Engagement({super.key});
@@ -24,6 +25,7 @@ class _EngagementState extends State<Engagement> {
   };
 
   static var response = {};
+  final GlobalKey _engagementKey = GlobalKey();
 
   String convertNumber(var value) {
     if (value < 1000) {
@@ -89,7 +91,7 @@ class _EngagementState extends State<Engagement> {
           if (snapShot.hasData) {
             return Container(
               width: 330,
-              height: 300,
+              height: 350,
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.rectangle,
@@ -102,226 +104,238 @@ class _EngagementState extends State<Engagement> {
                   ),
                 ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            RichText(
-                              text: const TextSpan(
-                                text: "Engagement",
-                                style: TextStyle(
-                                    color: Colors.orange, fontSize: 16),
+              child: Column(
+                children: [
+                  RepaintBoundary(
+                    key: _engagementKey,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: const TextSpan(
+                                      text: "Engagement",
+                                      style: TextStyle(
+                                          color: Colors.orange, fontSize: 16),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  RichText(
+                                    textAlign: TextAlign.left,
+                                    text: TextSpan(
+                                      text: convertNumber(response["data"]
+                                              ["elasticResponse"]["response"]
+                                          ["data"]["card"][0]["value"]),
+                                      style: const TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            RichText(
-                              textAlign: TextAlign.left,
-                              text: TextSpan(
-                                text: convertNumber(response["data"]
-                                        ["elasticResponse"]["response"]["data"]
-                                    ["card"][0]["value"]),
-                                style: const TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                              const SizedBox(width: 30),
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  height:
+                                      60, // Adjust the height of the chart to your desired size
+                                  child: SfSparkAreaChart(
+                                    data: convertList(response["data"]
+                                                ["elasticResponse"]["response"]
+                                            ["data"]["line"]["datasets"][0]
+                                        ["data"]),
+                                    axisLineColor: Colors
+                                        .black, // Optional: This line hides the axis lines
+                                    color: Color.fromARGB(255, 249, 223, 185),
+                                    borderWidth: 2,
+                                    borderColor: Colors
+                                        .orange, // Optional: Change the sparkline color
+                                    // gradient: LinearGradient(
+                                    //   colors: [
+                                    //     Colors.blue.withOpacity(0.2),
+                                    //     Colors.blue.withOpacity(0.8),
+                                    //   ],
+                                    //   begin: Alignment.bottomCenter,
+                                    //   end: Alignment.topCenter,
+                                    // ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 30),
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            height:
-                                60, // Adjust the height of the chart to your desired size
-                            child: SfSparkAreaChart(
-                              data: convertList(response["data"]
-                                      ["elasticResponse"]["response"]["data"]
-                                  ["line"]["datasets"][0]["data"]),
-                              axisLineColor: Colors
-                                  .black, // Optional: This line hides the axis lines
-                              color: Color.fromARGB(255, 249, 223, 185),
-                              borderWidth: 2,
-                              borderColor: Colors
-                                  .orange, // Optional: Change the sparkline color
-                              // gradient: LinearGradient(
-                              //   colors: [
-                              //     Colors.blue.withOpacity(0.2),
-                              //     Colors.blue.withOpacity(0.8),
-                              //   ],
-                              //   begin: Alignment.bottomCenter,
-                              //   end: Alignment.topCenter,
-                              // ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: Row(
-                            children: [
-                              Icon(
-                                FontAwesomeIcons.thumbsUp,
-                                size: 20, //Icon Size
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ), // Replace with the desired icon
-                              SizedBox(
-                                  width:
-                                      5), // Add some spacing between the icon and the text
-                              Text("Reactions"),
                             ],
                           ),
-                        ),
-                        Expanded(
-                          child: Container(
-                              alignment: Alignment.centerRight,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(convertNumber(response["data"]
-                                        ["elasticResponse"]["response"]["data"]
-                                    ["card"][1]["value"])),
-                                  const SizedBox(
-                                      width:
-                                          5), // Add some spacing between the icon and the text
-                                  const Icon(trending_up,
-                                      color: Colors
-                                          .green), // Replace with the desired icon
-                                ],
-                              )),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: Row(
+                          const SizedBox(height: 30),
+                          Row(
                             children: [
-                              Icon(
-                                FontAwesomeIcons.commentDots,
-                                size: 20, //Icon Size
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ), // Replace with the desired icon
-                              SizedBox(
-                                  width:
-                                      5), // Add some spacing between the icon and the text
-                              Text("comments"),
+                              const Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.thumbsUp,
+                                      size: 20, //Icon Size
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ), // Replace with the desired icon
+                                    SizedBox(
+                                        width:
+                                            5), // Add some spacing between the icon and the text
+                                    Text("Reactions"),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                    alignment: Alignment.centerRight,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(convertNumber(response["data"]
+                                                ["elasticResponse"]["response"]
+                                            ["data"]["card"][1]["value"])),
+                                        const SizedBox(
+                                            width:
+                                                5), // Add some spacing between the icon and the text
+                                        const Icon(trending_up,
+                                            color: Colors
+                                                .green), // Replace with the desired icon
+                                      ],
+                                    )),
+                              ),
                             ],
                           ),
-                        ),
-                        Expanded(
-                          child: Container(
-                              alignment: Alignment.centerRight,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(convertNumber(response["data"]
-                                        ["elasticResponse"]["response"]["data"]
-                                    ["card"][2]["value"])),
-                                  const SizedBox(
-                                      width:
-                                          5), // Add some spacing between the icon and the text
-                                  const Icon(trending_down,
-                                      color: Colors
-                                          .red), // Replace with the desired icon
-                                ],
-                              )),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: Row(
+                          const SizedBox(height: 20),
+                          Row(
                             children: [
-                              Icon(
-                                FontAwesomeIcons.share,
-                                size: 20, //Icon Size
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ), // Replace with the desired icon
-                              SizedBox(
-                                  width:
-                                      5), // Add some spacing between the icon and the text
-                              Text("shares"),
+                              const Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.commentDots,
+                                      size: 20, //Icon Size
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ), // Replace with the desired icon
+                                    SizedBox(
+                                        width:
+                                            5), // Add some spacing between the icon and the text
+                                    Text("comments"),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                    alignment: Alignment.centerRight,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(convertNumber(response["data"]
+                                                ["elasticResponse"]["response"]
+                                            ["data"]["card"][2]["value"])),
+                                        const SizedBox(
+                                            width:
+                                                5), // Add some spacing between the icon and the text
+                                        const Icon(trending_down,
+                                            color: Colors
+                                                .red), // Replace with the desired icon
+                                      ],
+                                    )),
+                              ),
                             ],
                           ),
-                        ),
-                        Expanded(
-                          child: Container(
-                              alignment: Alignment.centerRight,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(convertNumber(response["data"]
-                                        ["elasticResponse"]["response"]["data"]
-                                    ["card"][3]["value"])),
-                                  const SizedBox(
-                                      width:
-                                          5), // Add some spacing between the icon and the text
-                                  const Icon(trending_down,
-                                      color: Colors
-                                          .red), // Replace with the desired icon
-                                ],
-                              )),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: Row(
+                          const SizedBox(height: 20),
+                          Row(
                             children: [
-                              Icon(
-                                FontAwesomeIcons.eye,
-                                size: 20, //Icon Size
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ), // Replace with the desired icon
-                              SizedBox(
-                                  width:
-                                      5), // Add some spacing between the icon and the text
-                              Text("views"),
+                              const Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.share,
+                                      size: 20, //Icon Size
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ), // Replace with the desired icon
+                                    SizedBox(
+                                        width:
+                                            5), // Add some spacing between the icon and the text
+                                    Text("shares"),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                    alignment: Alignment.centerRight,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(convertNumber(response["data"]
+                                                ["elasticResponse"]["response"]
+                                            ["data"]["card"][3]["value"])),
+                                        const SizedBox(
+                                            width:
+                                                5), // Add some spacing between the icon and the text
+                                        const Icon(trending_down,
+                                            color: Colors
+                                                .red), // Replace with the desired icon
+                                      ],
+                                    )),
+                              ),
                             ],
                           ),
-                        ),
-                        Expanded(
-                          child: Container(
-                              alignment: Alignment.centerRight,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(convertNumber(response["data"]
-                                        ["elasticResponse"]["response"]["data"]
-                                    ["card"][4]["value"])),
-                                  const SizedBox(
-                                      width:
-                                          5), // Add some spacing between the icon and the text
-                                  const Icon(trending_down,
-                                      color: Colors
-                                          .red), // Replace with the desired icon
-                                ],
-                              )),
-                        ),
-                      ],
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              const Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.eye,
+                                      size: 20, //Icon Size
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ), // Replace with the desired icon
+                                    SizedBox(
+                                        width:
+                                            5), // Add some spacing between the icon and the text
+                                    Text("views"),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                    alignment: Alignment.centerRight,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(convertNumber(response["data"]
+                                                ["elasticResponse"]["response"]
+                                            ["data"]["card"][4]["value"])),
+                                        const SizedBox(
+                                            width:
+                                                5), // Add some spacing between the icon and the text
+                                        const Icon(trending_down,
+                                            color: Colors
+                                                .red), // Replace with the desired icon
+                                      ],
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  ElevatedButton(
+                      onPressed: () =>
+                          {ExportPdf.renderPDF(_engagementKey, multi: 0.8)},
+                      child: Text("Export")),
+                ],
               ),
             );
-          }else{
+          } else {
             return const CircularProgressIndicator();
           }
         });

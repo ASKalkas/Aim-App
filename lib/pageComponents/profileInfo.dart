@@ -2,7 +2,7 @@ import "dart:convert";
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import "../main.dart";
-import "../api/api.dart";
+import "../GlobalMethods/api.dart";
 
 class ProfileInfo extends StatelessWidget {
   const ProfileInfo({super.key});
@@ -73,8 +73,8 @@ class ProfileInfo extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(response["data"]["userDetails"]["attributes"]
-                                  [2]["Value"]
+                          child: Text(response["data"]["userDetails"]
+                                  ["username"]
                               .toString()),
                         ),
                       ),
@@ -99,8 +99,8 @@ class ProfileInfo extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(response["data"]["userDetails"]["attributes"]
-                                  [5]["Value"]
+                          child: Text(response["data"]["userDetails"]
+                                  ["attributes"][2]["Value"]
                               .toString()),
                         ),
                       ),
@@ -125,9 +125,11 @@ class ProfileInfo extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(response["data"]["userDetails"]["attributes"]
-                                  [4]["Value"]
-                              .toString()),
+                          child: Text(
+                              /*response["data"]["userDetails"]
+                                  ["attributes"][4]["Value"]
+                              .toString()*/
+                              "WIP"),
                         ),
                       ),
                     ],

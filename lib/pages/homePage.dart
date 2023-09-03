@@ -10,12 +10,17 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<AppState>();
     return Scaffold(
+      appBar: AppBar(
+        title: Text("AIM Charts"),
+      ),
       body: Column(
         children: [
           Expanded(
             child: appState.page,
           ),
-          const SafeArea(child: BottomNavigationBarExample(),)
+          const SafeArea(
+            child: BottomNavigationBarExample(),
+          )
         ],
       ),
     );

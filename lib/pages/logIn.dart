@@ -1,9 +1,10 @@
 import "package:flutter/gestures.dart";
+import 'dart:developer';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import "package:text_input/pages/homePage.dart";
 import "dart:convert";
-import '../api/api.dart';
+import '../GlobalMethods/api.dart';
 import "../pages/generalStats.dart";
 import "../main.dart";
 
@@ -31,11 +32,10 @@ class LoginState extends State<Login> {
     var res = await CallApi().postData(data, "auth/login", header);
 
     int code = res.statusCode;
-    var body = json.decode(res.body);
-
-    //appState.printTest();
+    debugPrint(code.toString());
 
     if (code == 200) {
+      var body = json.decode(res.body);
       appState.token = body["token"];
       appState.username = body["data"]["user"]["username"];
       appState.password = pass.text;

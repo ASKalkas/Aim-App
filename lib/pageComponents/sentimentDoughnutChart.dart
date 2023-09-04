@@ -1,10 +1,10 @@
-import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
 import '../GlobalMethods/api.dart';
+import '../GlobalMethods/pdf.dart';
 
 class SentimentDoughnut extends StatefulWidget {
   const SentimentDoughnut({super.key});
@@ -20,7 +20,8 @@ class _SentimentDoughnutState extends State<SentimentDoughnut> {
   static var response = {};
 
   int _level = 0;
-  int currIndex = -1;
+  int _currIndex = -1;
+  final GlobalKey _donutKey = GlobalKey();
 
   Future<String> getData() async {
     var data = {
@@ -53,22 +54,35 @@ class _SentimentDoughnutState extends State<SentimentDoughnut> {
     return "Done";
   }
 
+  String getTitle() {
+    switch (_currIndex) {
+      case 0:
+        return "Neutral";
+      case 1:
+        return "Negative";
+      case 2:
+        return "Positive";
+      default:
+        return "Total";
+    }
+  }
+
   void _onDataLabelTapped(ChartPointDetails details) {
     if (_level < 1) {
       setState(() {
         _level++;
         switch (details.dataPoints![details.pointIndex!].x.toString()) {
           case "neutral":
-            currIndex = 0;
+            _currIndex = 0;
             break;
           case "negative":
-            currIndex = 1;
+            _currIndex = 1;
             break;
           case "positive":
-            currIndex = 2;
+            _currIndex = 2;
             break;
           default:
-            currIndex = -1;
+            _currIndex = -1;
         }
         _fillData();
       });
@@ -105,21 +119,21 @@ class _SentimentDoughnutState extends State<SentimentDoughnut> {
         for (int i = 0;
             i <
                 (response["data"]["elasticResponse"]["response"]["data"]["data"]
-                        ["children"][currIndex]["children"] as List)
+                        ["children"][_currIndex]["children"] as List)
                     .length;
             i++) {
           if (response["data"]["elasticResponse"]["response"]["data"]["data"]
-                  ["children"][currIndex]["children"][i]["doc_count"] as int ==
+                  ["children"][_currIndex]["children"][i]["doc_count"] as int ==
               0) {
             continue;
           }
           String name = response["data"]["elasticResponse"]["response"]["data"]
-                  ["data"]["children"][currIndex]["children"][i]["name"]
+                  ["data"]["children"][_currIndex]["children"][i]["name"]
               .toString();
           data.add(ChartSampleData(
               name,
               response["data"]["elasticResponse"]["response"]["data"]["data"]
-                  ["children"][currIndex]["children"][i]["doc_count"] as int,
+                  ["children"][_currIndex]["children"][i]["doc_count"] as int,
               Color(int.parse(
                   "0xff${response["data"]["elasticResponse"]["response"]["data"]["colors"][name].toString().substring(1)}"))));
         }
@@ -152,48 +166,56 @@ class _SentimentDoughnutState extends State<SentimentDoughnut> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Stack(
+                child: ListView(
                   children: [
-                    Center(
-                      child: SfCircularChart(
-                        series: <DoughnutSeries<ChartSampleData, String>>[
-                          DoughnutSeries<ChartSampleData, String>(
-                            dataSource: data,
-                            pointColorMapper: (ChartSampleData data, _) =>
-                                data.color,
-                            xValueMapper: (ChartSampleData data, _) => data.x,
-                            yValueMapper: (ChartSampleData data, _) => data.y,
-                            dataLabelSettings:
-                                const DataLabelSettings(isVisible: true),
-                            dataLabelMapper: (ChartSampleData data, _) =>
-                                data.x,
-                            //explode: true,
-                            explodeIndex: 0,
-                            explodeOffset: '10%',
-                            explodeAll: true,
-                            onPointTap: _onDataLabelTapped,
-                          ),
-                        ],
+                    RepaintBoundary(
+                      key: _donutKey,
+                      child: Center(
+                        child: SfCircularChart(
+                          title: ChartTitle(text: getTitle()),
+                          legend: const Legend(
+                              isVisible: true,
+                              position: LegendPosition.right,
+                              width: "30%"),
+                          series: <DoughnutSeries<ChartSampleData, String>>[
+                            DoughnutSeries<ChartSampleData, String>(
+                              dataSource: data,
+                              pointColorMapper: (ChartSampleData data, _) =>
+                                  data.color,
+                              xValueMapper: (ChartSampleData data, _) => data.x,
+                              yValueMapper: (ChartSampleData data, _) => data.y,
+                              dataLabelSettings:
+                                  const DataLabelSettings(isVisible: true),
+                              dataLabelMapper: (ChartSampleData data, _) =>
+                                  data.y.toString(),
+                              //explode: true,
+                              explodeIndex: 0,
+                              explodeOffset: '10%',
+                              explodeAll: true,
+                              onPointTap: _onDataLabelTapped,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Center(
-                      child: SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              if (_level > 0) {
-                                _level--;
-                                _fillData();
-                              }
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                          ),
-                          child: const Text("Back"),
-                        ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            if (_level > 0) {
+                              _level--;
+                              _currIndex = -1;
+                              _fillData();
+                            }
+                          });
+                        },
+                        child: const Text("Back"),
+                      ),
+                    ),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () => {ExportPdf.renderPDF(_donutKey)},
+                        child: const Text("Export"),
                       ),
                     ),
                   ],

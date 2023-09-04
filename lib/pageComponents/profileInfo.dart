@@ -7,7 +7,7 @@ import "../GlobalMethods/api.dart";
 class ProfileInfo extends StatelessWidget {
   const ProfileInfo({super.key});
   static var response = {};
-  static var appState;
+  static late AppState appState;
 
   Future<String> getData() async {
     Map<String, String> headers = {
@@ -20,6 +20,18 @@ class ProfileInfo extends StatelessWidget {
     // debugPrint(res.statusCode.toString());
     //debugPrint(response["data"]["elasticResponse"]["response"]["data"]["line"]["datasets"][0]["data"][0].toString());
     return "Done";
+  }
+
+  String getValue(String key) {
+    List arr = response["data"]["userDetails"]["attributes"];
+    int length = arr.length;
+    for (int i = 0; i < length; i++) {
+      if (arr[i]["Name"] == key) {
+        return arr[i]["Value"];
+      }
+    }
+
+    return "N/A";
   }
 
   @override
@@ -99,9 +111,7 @@ class ProfileInfo extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(response["data"]["userDetails"]
-                                  ["attributes"][2]["Value"]
-                              .toString()),
+                          child: Text(getValue("email")),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -125,13 +135,14 @@ class ProfileInfo extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                              /*response["data"]["userDetails"]
-                                  ["attributes"][4]["Value"]
-                              .toString()*/
-                              "WIP"),
+                          child: Text(getValue("Phonenumber")),
                         ),
                       ),
+                      SizedBox(height: 30),
+                      ElevatedButton(
+                          onPressed: () =>
+                              {appState.setPage(const Placeholder())},
+                          child: Text("Reset Password")),
                     ],
                   ),
                 ),

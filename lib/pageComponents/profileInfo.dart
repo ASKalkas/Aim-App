@@ -138,11 +138,6 @@ class ProfileInfo extends StatelessWidget {
                           child: Text(getValue("Phonenumber")),
                         ),
                       ),
-                      SizedBox(height: 30),
-                      ElevatedButton(
-                          onPressed: () =>
-                              {appState.setPage(const Placeholder())},
-                          child: Text("Reset Password")),
                     ],
                   ),
                 ),

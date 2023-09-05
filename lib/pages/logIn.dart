@@ -1,11 +1,9 @@
+import "dart:convert";
 import "package:flutter/gestures.dart";
-import 'dart:developer';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
-import "package:text_input/pages/homePage.dart";
-import "dart:convert";
+import "../pages/homePage.dart";
 import '../GlobalMethods/api.dart';
-import "../pages/generalStats.dart";
 import "../main.dart";
 
 class Login extends StatefulWidget {
@@ -182,24 +180,7 @@ class LoginState extends State<Login> {
                 const Text("Remember me"),
               ],
             ),
-            const SizedBox(height: 40),
-            Expanded(
-              child: RichText(
-                text: TextSpan(
-                    text: "Forgot Password?",
-                    style: const TextStyle(
-                      color: Color(0xffE91D76),
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Placeholder()),
-                        );
-                      }),
-              ),
-            ),
+            const Expanded(child: SizedBox()),
           ],
         ),
       ),

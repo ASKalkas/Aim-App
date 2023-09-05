@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:text_input/pages/engagementGraphPage.dart';
+import '../pages/engagementGraphPage.dart';
 import '../pages/circularChartsPage.dart';
 import '../pages/generalStats.dart';
 import '../pages/profilePage.dart';
@@ -41,15 +41,20 @@ class _BottomNavigationBarExampleState
     switch (index) {
       case 0:
         appState.setPage(const GeneralStats());
+        appState.setTitle("General Statistics");
         break;
       case 1:
         appState.setPage(const CircularCharts());
+        appState.setTitle("NSS & Sentiment");
         break;
       case 2:
         appState.setPage(const EngagementGraphPage());
+        appState.setTitle("Engagement Graph");
         break;
       case 3:
         appState.setPage(const ProfilePage());
+        appState.setTitle("Profile");
+        break;
       default:
         break;
     }

@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
     var appState = context.watch<AppState>();
     return Scaffold(
       appBar: AppBar(
-        title: Text("AIM Charts"),
+        title: Text(appState.title),
       ),
       body: Column(
         children: [
